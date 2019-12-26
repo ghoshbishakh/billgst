@@ -1,0 +1,25 @@
+input.form-control {
+	border-radius: 0;
+}
+
+input.form-control[type=number] {
+	-moz-appearance: none;
+	-webkit-appearance: textfield;
+}
+
+.table-bordered td.form-input-td {
+	padding: 0;
+	vertical-align: middle;
+}
+
+.table-bordered td, .table-bordered th {
+	padding: 0.25em;
+}
+
+.table-bordered tbody td, .table-bordered tbody th, .table-bordered thead th, .table-bordered thead td {
+	background: #f9f9f9;
+}
+
+.two-col-form td, .two-col-form th { 
+	width: 25%;
+}
