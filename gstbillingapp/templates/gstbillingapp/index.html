@@ -28,7 +28,7 @@
 
 		<h2>Create Invoice</h2>
 
-		<form target="/" method="POST">
+		<form method="POST">
 
 			<table class="table table-bordered">
 				<thead>
@@ -40,9 +40,9 @@
 				<tbody class="two-col-form">
 					<tr>
 						<th scope="row">Invoice Number</th>
-						<td class="form-input-td"><input name="invoice-number" type="number" class="form-control" placeholder="Invoice Number"></td>
+						<td class="form-input-td"><input name="invoice-number" type="number" class="form-control" placeholder="Invoice Number" value="{{default_invoice_number}}"></td>
 						<th scope="row">Date</th>
-						<td class="form-input-td"><input name="invoice-date" type="date" class="form-control" placeholder="Date"></td>
+						<td class="form-input-td"><input name="invoice-date" type="date" class="form-control", value="{{default_invoice_date}}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -88,12 +88,12 @@
 				<tbody id="invoice-form-items-table-body">
 					<tr>
 						<td class="invoice-item-slno">1</td>
-						<td class="form-input-td"><input name="1-invoice-product" type="text" class="form-control" placeholder="Product"></td>
-						<td class="form-input-td"><input name="1-invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
-						<td class="form-input-td"><input name="1-invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
-						<td class="form-input-td"><input name="1-invoice-qty" type="number" class="form-control" placeholder="Qty"></td>
-						<td class="form-input-td"><input name="1-invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate witd GST"></td>
-						<td class="form-input-td"><input name="1-invoice-gst-percentage" type="number" class="form-control" placeholder="GST %"></td>
+						<td class="form-input-td"><input name="invoice-product" type="text" class="form-control" placeholder="Product"></td>
+						<td class="form-input-td"><input name="invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
+						<td class="form-input-td"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
+						<td class="form-input-td"><input name="invoice-qty" type="number" class="form-control" placeholder="Qty"></td>
+						<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate witd GST"></td>
+						<td class="form-input-td"><input name="invoice-gst-percentage" type="number" class="form-control" placeholder="GST %"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -113,6 +113,7 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="{% static "gstbillingapp/bootstrap-4.4.1-dist/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "gstbillingapp/fuse-3.4.6.min.js" %}"></script>
 	<script src="{% static "gstbillingapp/main.js" %}"></script>
 </body>
 </html>
