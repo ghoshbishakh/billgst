@@ -57,15 +57,17 @@
 				<tbody class="two-col-form">
 					<tr>
 						<th scope="row">Customer Name</th>
-						<td class="form-input-td"><input name="customer-name" type="text" class="form-control" placeholder="Customer Name"></td>
+						<td class="form-input-td customer_search_area"><input autocomplete="off" name="customer-name" type="text" class="form-control customer_search_input" id="customer-name-input" placeholder="Customer Name">
+						<div id="customer_search_bar"></div>
+						</td>
 						<th scope="row">Customer Address</th>
-						<td class="form-input-td"><input name="customer-address" type="text" class="form-control" placeholder="Customer Address"></td>
+						<td class="form-input-td"><input autocomplete="off" name="customer-address" type="text" class="form-control" id="customer-address-input" placeholder="Customer Address"></td>
 					</tr>
 					<tr>
 						<th scope="row">Customer Mobile Number</th>
-						<td class="form-input-td"><input name="customer-phone" type="tel" class="form-control" placeholder="Customer Mobile Number"></td>
+						<td class="form-input-td"><input autocomplete="off" name="customer-phone" type="tel" class="form-control" id="customer-phone-input" placeholder="Customer Mobile Number"></td>
 						<th scope="row">Customer GST</th>
-						<td class="form-input-td"><input name="customer-gst" type="text" class="form-control" placeholder="Customer GST"></td>
+						<td class="form-input-td"><input autocomplete="off" name="customer-gst" type="text" class="form-control" id="customer-gst-input" placeholder="Customer GST"></td>
 					</tr>
 
 				</tbody>
@@ -110,9 +112,10 @@
 
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="{% static "gstbillingapp/bootstrap-4.4.1-dist/js/bootstrap.min.js" %}"></script>
+
 	<script src="{% static "gstbillingapp/fuse-3.4.6.min.js" %}"></script>
 	<script src="{% static "gstbillingapp/main.js" %}"></script>
 </body>

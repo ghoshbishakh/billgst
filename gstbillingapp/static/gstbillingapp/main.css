@@ -23,3 +23,27 @@ input.form-control[type=number] {
 .two-col-form td, .two-col-form th { 
 	width: 25%;
 }
+
+
+#customer_search_bar {
+	display: none;
+	background: #f9f9f9;
+	width: 20em;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	box-shadow: 0em 0em 1em #111;
+	padding: 0.2em;
+}
+
+.customer-search-result {
+	padding: 0.2em;
+	margin: 0.4em;
+	border-bottom: 0.16em solid #b9b9b9;
+	cursor: pointer;
+}
+
+.customer-search-result:hover {
+	background: #b9b9b9;
+}
