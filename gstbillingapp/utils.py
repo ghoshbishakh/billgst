@@ -1,4 +1,5 @@
 import datetime
+from .models import Product
 
 
 def invoice_data_validator(invoice_data):
@@ -67,3 +68,23 @@ def invoice_data_processor(invoice_post_data):
             processed_invoice_data['items'].append(item_entry)
     print(processed_invoice_data)
     return processed_invoice_data
+
+
+def update_products_from_invoice(invoice_data_processed):
+    for item in invoice_data_processed['items']:
+        print("ITEM:", item)
+        if Product.objects.filter(product_name=item['invoice-product'],
+                                  product_hsn=item['invoice-hsn'],
+                                  product_unit=item['invoice-unit'],
+                                  product_gst_percentage=item['invoice-gst-percentage']).exists():
+            product = Product.objects.get(product_name=item['invoice-product'],
+                                          product_hsn=item['invoice-hsn'],
+                                          product_unit=item['invoice-unit'],
+                                          product_gst_percentage=item['invoice-gst-percentage'])
+        else:
+            product = Product(product_name=item['invoice-product'],
+                              product_hsn=item['invoice-hsn'],
+                              product_unit=item['invoice-unit'],
+                              product_gst_percentage=item['invoice-gst-percentage'])
+        product.product_rate_with_gst = item['invoice-rate-with-gst']
+        product.save()

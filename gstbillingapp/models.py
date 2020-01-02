@@ -22,3 +22,12 @@ class Invoice(models.Model):
     invoice_json = models.TextField()
     def __str__(self):
         return str(self.invoice_number) + " | " + str(self.invoice_date)
+
+class Product(models.Model):
+    product_name = models.CharField(max_length=200)
+    product_hsn = models.CharField(max_length=50)
+    product_unit = models.CharField(max_length=50)
+    product_gst_percentage = models.FloatField()
+    product_rate_with_gst = models.FloatField()
+    def __str__(self):
+        return str(self.product_name)

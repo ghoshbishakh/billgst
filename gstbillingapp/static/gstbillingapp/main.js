@@ -20,7 +20,7 @@ function setup_invoice_rows() {
 }
 
 
-// AUTO CALCULATE ITEM AMOUNTS
+// AUTO CALCULATE ITEM AMOUNTS =============================================
 
 function initialize_auto_calculation(){
     $('input[name=invoice-qty], input[name=invoice-gst-percentage], input[name=invoice-rate-with-gst]').change(function (){
@@ -30,7 +30,22 @@ function initialize_auto_calculation(){
 
 function update_amounts(element){
     console.log(element.val());
-    $('input[name=invoice-qty]').parent().parent().find('input[name=invoice-amt-with-gst]')
+    var qty = parseInt(element.parent().parent().find('input[name=invoice-qty]').val());
+    var rate_with_gst = parseFloat(element.parent().parent().find('input[name=invoice-rate-with-gst]').val());
+    var gst_percentage = parseFloat(element.parent().parent().find('input[name=invoice-gst-percentage]').val());
+
+    var rate_without_gst = (rate_with_gst * 100.0) / (100.0 + gst_percentage);
+    var amt_without_gst = rate_without_gst * qty;
+    var sgst = amt_without_gst * gst_percentage / 200;
+    var cgst = amt_without_gst * gst_percentage / 200;
+    var amt_with_gst = amt_without_gst + cgst + sgst;
+
+    element.parent().parent().find('input[name=invoice-rate-without-gst]').val(rate_without_gst);    
+    element.parent().parent().find('input[name=invoice-amt-without-gst]').val(amt_without_gst);    
+    element.parent().parent().find('input[name=invoice-amt-sgst]').val(sgst);    
+    element.parent().parent().find('input[name=invoice-amt-cgst]').val(cgst);    
+    element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst);    
+
 }
 
 

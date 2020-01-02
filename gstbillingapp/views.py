@@ -8,10 +8,11 @@ from django.db.models import Max
 
 from .models import Customer
 from .models import Invoice
+from .models import Product
 
 from .utils import invoice_data_validator
 from .utils import invoice_data_processor
-
+from .utils import update_products_from_invoice
 
 # Create your views here.
 def index(request):
@@ -26,6 +27,8 @@ def index(request):
 
         # valid invoice data
         print("Valid Invoice Data")
+
+        invoice_data_processed = invoice_data_processor(invoice_data)
         # save customer
         customer = None
         if len(invoice_data['customer-gst']) == 15:
@@ -38,9 +41,12 @@ def index(request):
                 customer_gst=invoice_data['customer-gst'])
             customer.save()
 
+        # save product
+        update_products_from_invoice(invoice_data_processed)
+
+
         # save invoice
-        invoice_data_json = invoice_data_processor(invoice_data)
-        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']), invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'), invoice_customer=customer, invoice_json=invoice_data_json)
+        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']), invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'), invoice_customer=customer, invoice_json=invoice_data_processed)
         new_invoice.save()
         print("INVOICE SAVED")
         return render(request, 'gstbillingapp/index.html', context)
