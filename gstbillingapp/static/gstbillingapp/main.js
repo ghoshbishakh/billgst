@@ -20,6 +20,20 @@ function setup_invoice_rows() {
 }
 
 
+// AUTO CALCULATE ITEM AMOUNTS
+
+function initialize_auto_calculation(){
+    $('input[name=invoice-qty], input[name=invoice-gst-percentage], input[name=invoice-rate-with-gst]').change(function (){
+        update_amounts($(this));
+    });
+}
+
+function update_amounts(element){
+    console.log(element.val());
+    $('input[name=invoice-qty]').parent().parent().find('input[name=invoice-amt-with-gst]')
+}
+
+
 // CUSTOMER SEARCH ========================================================
 
 function customer_result_to_domstr(result) {
@@ -109,4 +123,7 @@ $(document).ready(function() {
 
     // Initialize customer search
     initialize_fuse_customers();
+
+    // Initialize auto calculation of amounts
+    initialize_auto_calculation();
 });

@@ -10,6 +10,7 @@ from .models import Customer
 from .models import Invoice
 
 from .utils import invoice_data_validator
+from .utils import invoice_data_processor
 
 
 # Create your views here.
@@ -38,10 +39,8 @@ def index(request):
             customer.save()
 
         # save invoice
-        invoice_data_entry = dict(invoice_data)
-        del(invoice_data_entry['csrfmiddlewaretoken'])
-        invoice_data_json = json.dumps(invoice_data_entry)
-        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']), invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'), invoice_customer=customer, invoice_json=invoice_data_entry)
+        invoice_data_json = invoice_data_processor(invoice_data)
+        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']), invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'), invoice_customer=customer, invoice_json=invoice_data_json)
         new_invoice.save()
         print("INVOICE SAVED")
         return render(request, 'gstbillingapp/index.html', context)

@@ -1,5 +1,11 @@
 input.form-control {
 	border-radius: 0;
+	padding: 0.1em;
+	font-size: 0.8em;
+}
+
+#invoice-form-items-table {
+	font-size: 0.8em;
 }
 
 input.form-control[type=number] {

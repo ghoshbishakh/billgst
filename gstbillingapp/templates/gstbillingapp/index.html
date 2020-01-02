@@ -85,6 +85,15 @@
 						<th scope="col">Qty</th>
 						<th scope="col">Rate with GST</th>
 						<th scope="col">GST %</th>
+						<th scope="col">Rate without GST</th>
+
+
+						<th scope="col">Amt without GST</th>
+						<th scope="col">SGST</th>
+						<th scope="col">CGST</th>
+						<th scope="col">IGST</th>
+						<th scope="col">Amt with GST</th>
+
 					</tr>
 				</thead>
 				<tbody id="invoice-form-items-table-body">
@@ -94,8 +103,15 @@
 						<td class="form-input-td"><input name="invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
 						<td class="form-input-td"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
 						<td class="form-input-td"><input name="invoice-qty" type="number" class="form-control" placeholder="Qty"></td>
-						<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate witd GST"></td>
+						<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate with GST"></td>
 						<td class="form-input-td"><input name="invoice-gst-percentage" type="number" class="form-control" placeholder="GST %"></td>
+						<td class="form-input-td"><input name="invoice-rate-without-gst" type="number" class="form-control" placeholder="Rate without GST" readonly></td>
+
+						<td class="form-input-td"><input name="invoice-amt-without-gst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-amt-sgst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-amt-cgst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-amt-igst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-amt-with-gst" type="number" class="form-control" readonly></td>
 					</tr>
 				</tbody>
 			</table>
