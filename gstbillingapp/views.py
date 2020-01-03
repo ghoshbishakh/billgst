@@ -68,6 +68,12 @@ def customers(request):
     return render(request, 'gstbillingapp/customers.html', context)
 
 
+def products(request):
+    context = {}
+    context['products'] = Product.objects.all()
+    return render(request, 'gstbillingapp/products.html', context)
+
+
 def customersjson(request):
     customers = list(Customer.objects.values())
     return JsonResponse(customers, safe=False)

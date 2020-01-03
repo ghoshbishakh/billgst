@@ -53,6 +53,8 @@ def invoice_data_processor(invoice_post_data):
     processed_invoice_data['customer-phone'] = invoice_post_data['customer-phone']
     processed_invoice_data['customer-gst'] = invoice_post_data['customer-gst']
 
+    processed_invoice_data['vehicle-number'] = invoice_post_data['vehicle-number']
+
     processed_invoice_data['items'] = []
     invoice_post_data = dict(invoice_post_data)
     for idx, product in enumerate(invoice_post_data['invoice-product']):

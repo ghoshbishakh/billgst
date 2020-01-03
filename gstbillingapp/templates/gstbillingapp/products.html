@@ -5,16 +5,16 @@
 
 
 {% block content %}
-		<h2>Customers</h2>
+		<h2>Products</h2>
 
 		<table class="table table-bordered">
 		<tbody class="two-col-form">
-			{% for customer in customers %}
+			{% for product in products %}
 			<tr>
- 				<td>{{customer.customer_name}}</td>
- 				<td>{{customer.customer_address}}</td>
- 				<td>{{customer.customer_phone}}</td>
- 				<td>{{customer.customer_gst}}</td>
+ 				<td>{{product.product_name}}</td>
+ 				<td>{{product.product_hsn}}</td>
+ 				<td>{{product.product_rate_with_gst}}</td>
+ 				<td>{{product.product_gst_percentage}}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
