@@ -46,12 +46,12 @@ def invoice_data_processor(invoice_post_data):
     processed_invoice_data = {}
 
     processed_invoice_data['invoice-number'] = invoice_post_data['invoice-number']
-    processed_invoice_data['invoice-date'] = invoice_post_data['invoice-number']
+    processed_invoice_data['invoice-date'] = invoice_post_data['invoice-date']
 
-    processed_invoice_data['customer-name'] = invoice_post_data['invoice-number']
-    processed_invoice_data['customer-address'] = invoice_post_data['invoice-number']
-    processed_invoice_data['customer-phone'] = invoice_post_data['invoice-number']
-    processed_invoice_data['customer-gst'] = invoice_post_data['invoice-number']
+    processed_invoice_data['customer-name'] = invoice_post_data['customer-name']
+    processed_invoice_data['customer-address'] = invoice_post_data['customer-address']
+    processed_invoice_data['customer-phone'] = invoice_post_data['customer-phone']
+    processed_invoice_data['customer-gst'] = invoice_post_data['customer-gst']
 
     processed_invoice_data['items'] = []
     invoice_post_data = dict(invoice_post_data)
@@ -60,7 +60,7 @@ def invoice_data_processor(invoice_post_data):
             print(idx, product)
             item_entry = {}
             item_entry['invoice-product'] = product
-            item_entry['invoice-hsn'] = invoice_post_data['invoice-product'][idx]
+            item_entry['invoice-hsn'] = invoice_post_data['invoice-hsn'][idx]
             item_entry['invoice-unit'] = invoice_post_data['invoice-unit'][idx]
             item_entry['invoice-qty'] = invoice_post_data['invoice-qty'][idx]
             item_entry['invoice-rate-with-gst'] = invoice_post_data['invoice-rate-with-gst'][idx]

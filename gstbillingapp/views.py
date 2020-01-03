@@ -73,6 +73,11 @@ def customersjson(request):
     return JsonResponse(customers, safe=False)
 
 
+def productsjson(request):
+    products = list(Product.objects.values())
+    return JsonResponse(products, safe=False)
+
+
 def invoices(request):
     context = {}
     context['invoices'] = Invoice.objects.all().order_by('-id')

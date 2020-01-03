@@ -129,6 +129,90 @@ function initialize_fuse_customers () {
 }
 
 
+// PRODUCT SEARCH ========================================================
+
+var selected_item_input;
+
+function product_result_to_domstr(result) {
+    var domstr = "<div class='product-search-result' data-product='" + JSON.stringify(result) + "'>"+
+    "<div>"+ result['product_name'] + "</div>" +
+    "<div>"+ result['product_hsn'] + " | " + result['product_unit'] + " | " + result['product_gst_percentage'] +
+    "</div>";
+     return domstr;
+}
+
+function product_result_click() {
+    console.log("UPDATE THE FORM WITH SEARCH RESULT");
+    product_data_json = JSON.parse($(this).attr('data-product'));
+    selected_item_input.val(product_data_json['product_name']);
+    selected_item_input.parent().parent().find('input[name=invoice-hsn]').val(product_data_json['product_hsn']);    
+    selected_item_input.parent().parent().find('input[name=invoice-unit]').val(product_data_json['product_unit']);    
+    selected_item_input.parent().parent().find('input[name=invoice-rate-with-gst]').val(product_data_json['product_rate_with_gst']);    
+    selected_item_input.parent().parent().find('input[name=invoice-gst-percentage]').val(product_data_json['product_gst_percentage']);    
+
+    // $('#customer-address-input').val(customer_data_json['customer_address']);
+    // $('#customer-phone-input').val(customer_data_json['customer_phone']);
+    // $('#customer-gst-input').val(customer_data_json['customer_gst']);
+}
+
+function initialize_fuse_product_search_bar() {
+    console.log("INITIALIZING PRODUCT SEARCH");
+
+    $(".product_search_area").focusin(function() {
+        console.log("DISPLAY PRODUCT SEARCH");
+        $("#product_search_bar").show();
+        var input = $( this );
+        selected_item_input = input;
+        var val = input.val();
+        update_product_search_bar(val);
+    });
+
+    $(document).bind('focusin click',function(e) {
+        if ($(e.target).closest('#product_search_bar, .product_search_area').length) return;
+        $('#product_search_bar').hide();
+    });
+
+    $(".product_search_input").on("input", function(e) {
+        $("#product_search_bar").show();
+        var input = $(this);
+        var val = input.val();
+        update_product_search_bar(val);
+    });
+}
+
+function update_product_search_bar(search_string){
+    console.log("Update product search bar with query: " + search_string);
+    results = fuse_products.search(search_string);
+    console.log(results);
+    $("#product_search_bar").empty();
+    for (var i = 0; i < results.length; i++) {
+        $("#product_search_bar").append(product_result_to_domstr(results[i]));
+    }
+    $('.product-search-result').click(product_result_click);
+}
+
+
+function initialize_fuse_products () {
+    // fetch customer data
+    $.getJSON( "/productsjson", function( data ) {
+        var fuse_product_options = {
+            shouldSort: true,
+            threshold: 0.6,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: [
+            "product_name",
+            ]
+        };
+        fuse_products = new Fuse(data, fuse_product_options);
+        // initialize the search bar
+        initialize_fuse_product_search_bar();
+    });
+}
+
+
 // START =============================================================
 
 $(document).ready(function() {
@@ -138,6 +222,9 @@ $(document).ready(function() {
 
     // Initialize customer search
     initialize_fuse_customers();
+
+    // Initialize product search
+    initialize_fuse_products();
 
     // Initialize auto calculation of amounts
     initialize_auto_calculation();

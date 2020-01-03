@@ -58,7 +58,6 @@
 					<tr>
 						<th scope="row">Customer Name</th>
 						<td class="form-input-td customer_search_area"><input autocomplete="off" name="customer-name" type="text" class="form-control customer_search_input" id="customer-name-input" placeholder="Customer Name">
-						<div id="customer_search_bar"></div>
 						</td>
 						<th scope="row">Customer Address</th>
 						<td class="form-input-td"><input autocomplete="off" name="customer-address" type="text" class="form-control" id="customer-address-input" placeholder="Customer Address"></td>
@@ -99,7 +98,7 @@
 				<tbody id="invoice-form-items-table-body">
 					<tr>
 						<td class="invoice-item-slno">1</td>
-						<td class="form-input-td"><input name="invoice-product" type="text" class="form-control" placeholder="Product"></td>
+						<td class="form-input-td"><input name="invoice-product" type="text" class="form-control product_search_area product_search_input" placeholder="Product"></td>
 						<td class="form-input-td"><input name="invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
 						<td class="form-input-td"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
 						<td class="form-input-td"><input name="invoice-qty" type="number" class="form-control" placeholder="Qty"></td>
@@ -123,6 +122,8 @@
 
 
 	</div>
+	<div id="customer_search_bar"></div>
+	<div id="product_search_bar"></div>
 
 
 

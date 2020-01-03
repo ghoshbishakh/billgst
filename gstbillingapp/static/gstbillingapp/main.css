@@ -31,7 +31,7 @@ input.form-control[type=number] {
 }
 
 
-#customer_search_bar {
+#customer_search_bar, #product_search_bar {
 	display: none;
 	background: #f9f9f9;
 	width: 20em;
@@ -43,13 +43,13 @@ input.form-control[type=number] {
 	padding: 0.2em;
 }
 
-.customer-search-result {
+.customer-search-result, .product-search-result {
 	padding: 0.2em;
 	margin: 0.4em;
 	border-bottom: 0.16em solid #b9b9b9;
 	cursor: pointer;
 }
 
-.customer-search-result:hover {
+.customer-search-result:hover, .product-search-result:hover {
 	background: #b9b9b9;
 }
