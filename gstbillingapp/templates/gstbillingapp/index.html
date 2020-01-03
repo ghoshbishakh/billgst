@@ -37,10 +37,10 @@
 				<tbody class="two-col-form">
 					<tr>
 						<th scope="row">Customer Name</th>
-						<td class="form-input-td customer_search_area"><input autocomplete="off" name="customer-name" type="text" class="form-control customer_search_input" id="customer-name-input" placeholder="Customer Name">
+						<td class="form-input-td customer_search_area"><input autocomplete="off" name="customer-name" type="text" class="form-control customer_search_input" id="customer-name-input" placeholder="Customer Name" required>
 						</td>
 						<th scope="row">Customer Address</th>
-						<td class="form-input-td"><input autocomplete="off" name="customer-address" type="text" class="form-control" id="customer-address-input" placeholder="Customer Address"></td>
+						<td class="form-input-td"><input autocomplete="off" name="customer-address" type="text" class="form-control" id="customer-address-input" placeholder="Customer Address" required></td>
 					</tr>
 					<tr>
 						<th scope="row">Customer Mobile Number</th>
@@ -56,7 +56,7 @@
 				<tbody class="two-col-form">
 					<tr>
 						<th scope="row">Vehicle Number</th>
-						<td class="form-input-td"><input autocomplete="off" name="vehicle-number" type="text" class="form-control" placeholder="Vehicle Number" required>
+						<td class="form-input-td"><input autocomplete="off" name="vehicle-number" type="text" class="form-control" placeholder="Vehicle Number">
 						</td>
 					</tr>
 				</tbody>
@@ -69,7 +69,7 @@
 					<tr>
 						<th scope="col">Sl No.</th>
 						<th scope="col">Product</th>
-						<th scope="col">HSN</th>
+						<th scope="col">HSN / SAC</th>
 						<th scope="col">Unit</th>
 						<th scope="col">Qty</th>
 						<th scope="col">Rate with GST</th>
@@ -103,7 +103,20 @@
 						<td class="form-input-td"><input name="invoice-amt-igst" type="number" class="form-control" readonly></td>
 						<td class="form-input-td"><input name="invoice-amt-with-gst" type="number" class="form-control" readonly></td>
 					</tr>
+
+
+					
+
 				</tbody>
+
+				<tr>
+						<td colspan="8" class="text-right"><strong>TOTAL:</strong></td>
+						<td class="form-input-td"><input name="invoice-total-amt-without-gst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-total-amt-sgst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-total-amt-cgst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-total-amt-igst" type="number" class="form-control" readonly></td>
+						<td class="form-input-td"><input name="invoice-total-amt-with-gst" type="number" class="form-control" readonly></td>
+				</tr>
 			</table>
 			{% csrf_token %}
 			<button class="btn btn-primary" id="invoice-form-addrow">+</button>

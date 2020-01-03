@@ -19,6 +19,46 @@ function setup_invoice_rows() {
     });
 }
 
+// UPDATING INVOICE TOTALS ================================================
+
+function update_invoice_totals() {
+
+    // amount without gst
+    sum_amt_without_gst = 0
+    $('input[name=invoice-amt-without-gst]').each(function(){
+        sum_amt_without_gst += +$(this).val();
+    });
+    $('input[name=invoice-total-amt-without-gst]').val(sum_amt_without_gst);
+
+    // amount sgst
+    sum_amt_sgst = 0
+    $('input[name=invoice-amt-sgst]').each(function(){
+        sum_amt_sgst += +$(this).val();
+    });
+    $('input[name=invoice-total-amt-sgst]').val(sum_amt_sgst);
+
+    // amount cgst
+    sum_amt_cgst = 0
+    $('input[name=invoice-amt-cgst]').each(function(){
+        sum_amt_cgst += +$(this).val();
+    });
+    $('input[name=invoice-total-amt-cgst]').val(sum_amt_cgst);
+
+    // amount igst
+    sum_amt_igst = 0
+    $('input[name=invoice-amt-igst]').each(function(){
+        sum_amt_igst += +$(this).val();
+    });
+    $('input[name=invoice-total-amt-igst]').val(sum_amt_igst);
+
+    sum_amt_with_gst = 0
+    $('input[name=invoice-amt-with-gst]').each(function(){
+        sum_amt_with_gst += +$(this).val();
+    });
+    $('input[name=invoice-total-amt-with-gst]').val(sum_amt_with_gst);
+
+}
+
 
 // AUTO CALCULATE ITEM AMOUNTS =============================================
 
@@ -44,7 +84,10 @@ function update_amounts(element){
     element.parent().parent().find('input[name=invoice-amt-without-gst]').val(amt_without_gst);    
     element.parent().parent().find('input[name=invoice-amt-sgst]').val(sgst);    
     element.parent().parent().find('input[name=invoice-amt-cgst]').val(cgst);    
-    element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst);    
+    element.parent().parent().find('input[name=invoice-amt-igst]').val(0);    
+    element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst);
+
+    update_invoice_totals();
 
 }
 

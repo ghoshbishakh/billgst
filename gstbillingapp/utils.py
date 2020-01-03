@@ -56,6 +56,13 @@ def invoice_data_processor(invoice_post_data):
     processed_invoice_data['vehicle_number'] = invoice_post_data['vehicle-number']
 
     processed_invoice_data['items'] = []
+    processed_invoice_data['invoice_total_amt_without_gst'] = invoice_post_data['invoice-total-amt-without-gst']
+    processed_invoice_data['invoice_total_amt_sgst'] = invoice_post_data['invoice-total-amt-sgst']
+    processed_invoice_data['invoice_total_amt_cgst'] = invoice_post_data['invoice-total-amt-cgst']
+    processed_invoice_data['invoice_total_amt_igst'] = invoice_post_data['invoice-total-amt-igst']
+    processed_invoice_data['invoice_total_amt_with_gst'] = invoice_post_data['invoice-total-amt-with-gst']
+
+
     invoice_post_data = dict(invoice_post_data)
     for idx, product in enumerate(invoice_post_data['invoice-product']):
         if product:
@@ -64,10 +71,20 @@ def invoice_data_processor(invoice_post_data):
             item_entry['invoice_product'] = product
             item_entry['invoice_hsn'] = invoice_post_data['invoice-hsn'][idx]
             item_entry['invoice_unit'] = invoice_post_data['invoice-unit'][idx]
-            item_entry['invoice_qty'] = invoice_post_data['invoice-qty'][idx]
-            item_entry['invoice_rate_with_gst'] = invoice_post_data['invoice-rate-with-gst'][idx]
-            item_entry['invoice_gst_percentage'] = invoice_post_data['invoice-gst-percentage'][idx]
+            item_entry['invoice_qty'] = int(invoice_post_data['invoice-qty'][idx])
+            item_entry['invoice_rate_with_gst'] = float(invoice_post_data['invoice-rate-with-gst'][idx])
+            item_entry['invoice_gst_percentage'] = float(invoice_post_data['invoice-gst-percentage'][idx])
+
+            item_entry['invoice_rate_without_gst'] = float(invoice_post_data['invoice-rate-without-gst'][idx])
+            item_entry['invoice_amt_without_gst'] = float(invoice_post_data['invoice-amt-without-gst'][idx])
+
+            item_entry['invoice_amt_sgst'] = float(invoice_post_data['invoice-amt-sgst'][idx])
+            item_entry['invoice_amt_cgst'] = float(invoice_post_data['invoice-amt-cgst'][idx])
+            item_entry['invoice_amt_igst'] = float(invoice_post_data['invoice-amt-igst'][idx])
+            item_entry['invoice_amt_with_gst'] = float(invoice_post_data['invoice-amt-with-gst'][idx])
+
             processed_invoice_data['items'].append(item_entry)
+
     print(processed_invoice_data)
     return processed_invoice_data
 

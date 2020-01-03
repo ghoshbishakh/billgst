@@ -6,13 +6,13 @@
 
 {% block content %}
 
-<h2>Invoice</h2>
-
 <div class="container">
 	<div class="card">
 		<div class="card-header">
-			Invoice
-			<strong>{{invoice.invoice_date}}</strong> 
+			<div class="row">
+			<div class="col-sm-6"><strong>Invoice Date: {{invoice.invoice_date}}</strong></div> 
+			<div class="col-sm-6 text-right"><strong>Invoice No:{{invoice.invoice_number}}</strong></div>
+			</div>
 		</div>
 
 		<div class="card-body">
@@ -50,27 +50,36 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="center">#</th>
-							<th>Item</th>
-							<th>HSN</th>
-							<th class="right">Unit</th>
-							<th class="center">Qty</th>
-							<th class="right">Rate with gst</th>
-							<th class="right">GST</th>
-							<th class="right">Taxable Amount</th>
+							<th class="text-center">#</th>
+							<th class="text-left">Item</th>
+							<th class="text-center">HSN / SAC</th>
+							<th class="text-center">Unit</th>
+							<th class="text-right">Qty</th>
+							<th class="text-right">Rate</th>
+							<th class="text-right">Taxable Amount</th>
+							<th class="text-right">GST</th>
+							<th class="text-right">CGST</th>
+							<th class="text-right">SGST</th>
+							<th class="text-right">IGST</th>
+							<th class="text-right">Total Amount</th>
+
 						</tr>
 					</thead>
 					<tbody>
 						{% for item in invoice_data.items %}
 						<tr>
-							<td class="center">{{ forloop.counter }}</td>
-							<td class="left strong">{{ item.invoice_product }}</td>
-							<td class="left">{{ item.invoice_hsn }}</td>
-							<td class="right">{{ item.invoice_unit }}</td>
-							<td class="right">{{ item.invoice_qty }}</td>
-							<td class="right">{{ item.invoice_rate_with_gst }}</td>
-							<td class="center">{{ item.invoice_gst_percentage }}</td>
-							<td class="right"> - </td>
+							<td class="text-center">{{ forloop.counter }}</td>
+							<td class="text-left strong">{{ item.invoice_product }}</td>
+							<td class="text-center">{{ item.invoice_hsn }}</td>
+							<td class="text-center">{{ item.invoice_unit }}</td>
+							<td class="text-right">{{ item.invoice_qty }}</td>
+							<td class="text-right">{{ item.invoice_rate_without_gst }}</td>
+							<td class="text-right">{{ item.invoice_amt_without_gst }}</td>
+							<td class="text-right">{{ item.invoice_gst_percentage }} %</td>
+							<td class="text-right">{{ item.invoice_amt_cgst }}</td>
+							<td class="text-right">{{ item.invoice_amt_sgst }}</td>
+							<td class="text-right">{{ item.invoice_amt_igst }}</td>
+							<td class="text-right">{{ item.invoice_amt_with_gst }}</td>
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -85,29 +94,29 @@
 					<table class="table table-clear">
 						<tbody>
 							<tr>
-								<td class="left">
-									<strong>Subtotal</strong>
+								<td class="text-left">
+									<strong>SGST</strong>
 								</td>
-								<td class="right">$8.497,00</td>
+								<td class="text-right">{{invoice_data.invoice_total_amt_sgst}}</td>
 							</tr>
 							<tr>
-								<td class="left">
-									<strong>Discount (20%)</strong>
+								<td class="text-left">
+									<strong>CGST</strong>
 								</td>
-								<td class="right">$1,699,40</td>
+								<td class="text-right">{{invoice_data.invoice_total_amt_cgst}}</td>
 							</tr>
 							<tr>
-								<td class="left">
-									<strong>VAT (10%)</strong>
+								<td class="text-left">
+									<strong>IGST</strong>
 								</td>
-								<td class="right">$679,76</td>
+								<td class="text-right">{{invoice_data.invoice_total_amt_igst}}</td>
 							</tr>
 							<tr>
-								<td class="left">
+								<td class="text-left">
 									<strong>Total</strong>
 								</td>
-								<td class="right">
-									<strong>$7.477,36</strong>
+								<td class="text-right">
+									<strong>{{ invoice_data.invoice_total_amt_with_gst }}</strong>
 								</td>
 							</tr>
 						</tbody>
@@ -119,6 +128,8 @@
 
 		</div>
 	</div>
+
+	<button onclick="window.print();" class="btn btn-primary d-print-none">Print Invoice</button>
 </div>
 
 {% endblock %}
