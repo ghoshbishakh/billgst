@@ -16,13 +16,11 @@
  				<td>{{invoice.invoice_number}}</td>
  				<td>{{invoice.invoice_date}}</td>
  				<td>{{invoice.invoice_customer}}</td>
- 				<td>{{invoice.invoice_json}}</td>
+ 				<td><a href="{% url 'invoice_viewer' invoice.id %}"><button type="button" class="btn btn-primary">View</button></a></td>
 			</tr>
 			{% endfor %}
 		</tbody>
 		</table>
 
-
-	</div>
 
 {% endblock %}

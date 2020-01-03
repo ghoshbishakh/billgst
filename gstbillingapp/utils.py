@@ -45,15 +45,15 @@ def invoice_data_processor(invoice_post_data):
     print(invoice_post_data)
     processed_invoice_data = {}
 
-    processed_invoice_data['invoice-number'] = invoice_post_data['invoice-number']
-    processed_invoice_data['invoice-date'] = invoice_post_data['invoice-date']
+    processed_invoice_data['invoice_number'] = invoice_post_data['invoice-number']
+    processed_invoice_data['invoice_date'] = invoice_post_data['invoice-date']
 
-    processed_invoice_data['customer-name'] = invoice_post_data['customer-name']
-    processed_invoice_data['customer-address'] = invoice_post_data['customer-address']
-    processed_invoice_data['customer-phone'] = invoice_post_data['customer-phone']
-    processed_invoice_data['customer-gst'] = invoice_post_data['customer-gst']
+    processed_invoice_data['customer_name'] = invoice_post_data['customer-name']
+    processed_invoice_data['customer_address'] = invoice_post_data['customer-address']
+    processed_invoice_data['customer_phone'] = invoice_post_data['customer-phone']
+    processed_invoice_data['customer_gst'] = invoice_post_data['customer-gst']
 
-    processed_invoice_data['vehicle-number'] = invoice_post_data['vehicle-number']
+    processed_invoice_data['vehicle_number'] = invoice_post_data['vehicle-number']
 
     processed_invoice_data['items'] = []
     invoice_post_data = dict(invoice_post_data)
@@ -61,12 +61,12 @@ def invoice_data_processor(invoice_post_data):
         if product:
             print(idx, product)
             item_entry = {}
-            item_entry['invoice-product'] = product
-            item_entry['invoice-hsn'] = invoice_post_data['invoice-hsn'][idx]
-            item_entry['invoice-unit'] = invoice_post_data['invoice-unit'][idx]
-            item_entry['invoice-qty'] = invoice_post_data['invoice-qty'][idx]
-            item_entry['invoice-rate-with-gst'] = invoice_post_data['invoice-rate-with-gst'][idx]
-            item_entry['invoice-gst-percentage'] = invoice_post_data['invoice-gst-percentage'][idx]
+            item_entry['invoice_product'] = product
+            item_entry['invoice_hsn'] = invoice_post_data['invoice-hsn'][idx]
+            item_entry['invoice_unit'] = invoice_post_data['invoice-unit'][idx]
+            item_entry['invoice_qty'] = invoice_post_data['invoice-qty'][idx]
+            item_entry['invoice_rate_with_gst'] = invoice_post_data['invoice-rate-with-gst'][idx]
+            item_entry['invoice_gst_percentage'] = invoice_post_data['invoice-gst-percentage'][idx]
             processed_invoice_data['items'].append(item_entry)
     print(processed_invoice_data)
     return processed_invoice_data
@@ -75,18 +75,18 @@ def invoice_data_processor(invoice_post_data):
 def update_products_from_invoice(invoice_data_processed):
     for item in invoice_data_processed['items']:
         print("ITEM:", item)
-        if Product.objects.filter(product_name=item['invoice-product'],
-                                  product_hsn=item['invoice-hsn'],
-                                  product_unit=item['invoice-unit'],
-                                  product_gst_percentage=item['invoice-gst-percentage']).exists():
-            product = Product.objects.get(product_name=item['invoice-product'],
-                                          product_hsn=item['invoice-hsn'],
-                                          product_unit=item['invoice-unit'],
-                                          product_gst_percentage=item['invoice-gst-percentage'])
+        if Product.objects.filter(product_name=item['invoice_product'],
+                                  product_hsn=item['invoice_hsn'],
+                                  product_unit=item['invoice_unit'],
+                                  product_gst_percentage=item['invoice_gst_percentage']).exists():
+            product = Product.objects.get(product_name=item['invoice_product'],
+                                          product_hsn=item['invoice_hsn'],
+                                          product_unit=item['invoice_unit'],
+                                          product_gst_percentage=item['invoice_gst_percentage'])
         else:
-            product = Product(product_name=item['invoice-product'],
-                              product_hsn=item['invoice-hsn'],
-                              product_unit=item['invoice-unit'],
-                              product_gst_percentage=item['invoice-gst-percentage'])
-        product.product_rate_with_gst = item['invoice-rate-with-gst']
+            product = Product(product_name=item['invoice_product'],
+                              product_hsn=item['invoice_hsn'],
+                              product_unit=item['invoice_unit'],
+                              product_gst_percentage=item['invoice_gst_percentage'])
+        product.product_rate_with_gst = item['invoice_rate_with_gst']
         product.save()

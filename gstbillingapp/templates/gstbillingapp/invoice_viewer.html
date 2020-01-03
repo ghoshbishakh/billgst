@@ -1,0 +1,124 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+<h2>Invoice</h2>
+
+<div class="container">
+	<div class="card">
+		<div class="card-header">
+			Invoice
+			<strong>{{invoice.invoice_date}}</strong> 
+		</div>
+
+		<div class="card-body">
+			<div class="row mb-4">
+
+
+				<div class="col-sm-6">
+					<div>
+						<strong>GHOSH GHOSH & GHOSH FOODS</strong>
+					</div>
+					<div>TRISULAPATTY, BOLPUR</div>
+					<div>BIRBHUM, WEST BENGAL, 731204</div>
+					<div>EMAIL: ghoshghoshandghoshfoods@gmail.com</div>
+					<div>Phone: 8597902931, 7319452127, 9002589189</div>
+					<div>GST No: 19AAQFG0367G1Z5</div>
+				</div>
+
+
+
+				<div class="col-sm-6">
+					<h6 class="mb-3">Billed To:</h6>
+					<div>
+						<strong>{{ invoice_data.customer_name }}</strong>
+					</div>
+					<div>{{ invoice_data.customer_address }}</div>
+					<div>Phone: {{ invoice_data.customer_phone }}</div>
+					<div>GST No: {{ invoice_data.customer_gst }}</div>
+				</div>
+
+
+
+			</div>
+
+			<div class="table-responsive-sm">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="center">#</th>
+							<th>Item</th>
+							<th>HSN</th>
+							<th class="right">Unit</th>
+							<th class="center">Qty</th>
+							<th class="right">Rate with gst</th>
+							<th class="right">GST</th>
+							<th class="right">Taxable Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in invoice_data.items %}
+						<tr>
+							<td class="center">{{ forloop.counter }}</td>
+							<td class="left strong">{{ item.invoice_product }}</td>
+							<td class="left">{{ item.invoice_hsn }}</td>
+							<td class="right">{{ item.invoice_unit }}</td>
+							<td class="right">{{ item.invoice_qty }}</td>
+							<td class="right">{{ item.invoice_rate_with_gst }}</td>
+							<td class="center">{{ item.invoice_gst_percentage }}</td>
+							<td class="right"> - </td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-sm-5">
+
+				</div>
+
+				<div class="col-lg-4 col-sm-5 ml-auto">
+					<table class="table table-clear">
+						<tbody>
+							<tr>
+								<td class="left">
+									<strong>Subtotal</strong>
+								</td>
+								<td class="right">$8.497,00</td>
+							</tr>
+							<tr>
+								<td class="left">
+									<strong>Discount (20%)</strong>
+								</td>
+								<td class="right">$1,699,40</td>
+							</tr>
+							<tr>
+								<td class="left">
+									<strong>VAT (10%)</strong>
+								</td>
+								<td class="right">$679,76</td>
+							</tr>
+							<tr>
+								<td class="left">
+									<strong>Total</strong>
+								</td>
+								<td class="right">
+									<strong>$7.477,36</strong>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

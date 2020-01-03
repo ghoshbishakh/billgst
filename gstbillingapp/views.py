@@ -2,6 +2,7 @@ import datetime
 import json
 
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.db.models import Max
@@ -46,7 +47,10 @@ def index(request):
 
 
         # save invoice
-        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']), invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'), invoice_customer=customer, invoice_json=invoice_data_processed)
+        invoice_data_processed_json = json.dumps(invoice_data_processed)
+        new_invoice = Invoice(invoice_number=int(invoice_data['invoice-number']),
+                              invoice_date=datetime.datetime.strptime(invoice_data['invoice-date'], '%Y-%m-%d'),
+                              invoice_customer=customer, invoice_json=invoice_data_processed_json)
         new_invoice.save()
         print("INVOICE SAVED")
         return render(request, 'gstbillingapp/index.html', context)
@@ -88,3 +92,11 @@ def invoices(request):
     context = {}
     context['invoices'] = Invoice.objects.all().order_by('-id')
     return render(request, 'gstbillingapp/invoices.html', context)
+
+def invoice_viewer(request, invoice_id):
+    invoice_obj = get_object_or_404(Invoice, id=invoice_id)
+    context = {}
+    context['invoice'] = invoice_obj
+    context['invoice_data'] = json.loads(invoice_obj.invoice_json)
+    print(context['invoice_data'])
+    return render(request, 'gstbillingapp/invoice_viewer.html', context)
