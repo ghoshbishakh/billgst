@@ -55,12 +55,17 @@ def invoice_data_processor(invoice_post_data):
 
     processed_invoice_data['vehicle_number'] = invoice_post_data['vehicle-number']
 
+    if 'igstcheck' in  invoice_post_data:
+        processed_invoice_data['igstcheck'] = True
+    else:
+        processed_invoice_data['igstcheck'] = False
+
     processed_invoice_data['items'] = []
-    processed_invoice_data['invoice_total_amt_without_gst'] = invoice_post_data['invoice-total-amt-without-gst']
-    processed_invoice_data['invoice_total_amt_sgst'] = invoice_post_data['invoice-total-amt-sgst']
-    processed_invoice_data['invoice_total_amt_cgst'] = invoice_post_data['invoice-total-amt-cgst']
-    processed_invoice_data['invoice_total_amt_igst'] = invoice_post_data['invoice-total-amt-igst']
-    processed_invoice_data['invoice_total_amt_with_gst'] = invoice_post_data['invoice-total-amt-with-gst']
+    processed_invoice_data['invoice_total_amt_without_gst'] = float(invoice_post_data['invoice-total-amt-without-gst'])
+    processed_invoice_data['invoice_total_amt_sgst'] = float(invoice_post_data['invoice-total-amt-sgst'])
+    processed_invoice_data['invoice_total_amt_cgst'] = float(invoice_post_data['invoice-total-amt-cgst'])
+    processed_invoice_data['invoice_total_amt_igst'] = float(invoice_post_data['invoice-total-amt-igst'])
+    processed_invoice_data['invoice_total_amt_with_gst'] = float(invoice_post_data['invoice-total-amt-with-gst'])
 
 
     invoice_post_data = dict(invoice_post_data)

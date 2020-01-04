@@ -98,5 +98,6 @@ def invoice_viewer(request, invoice_id):
     context = {}
     context['invoice'] = invoice_obj
     context['invoice_data'] = json.loads(invoice_obj.invoice_json)
-    # print(context['invoice_data'])
+    context['currency'] = "₹"
+    print(context['invoice_data'])
     return render(request, 'gstbillingapp/invoice_viewer.html', context)

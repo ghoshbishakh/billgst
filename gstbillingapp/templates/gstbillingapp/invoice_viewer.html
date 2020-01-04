@@ -6,7 +6,6 @@
 
 {% block content %}
 
-<div class="container">
 	<div class="card">
 		<div class="card-header">
 			<div class="row">
@@ -47,7 +46,7 @@
 			</div>
 
 			<div class="table-responsive-sm">
-				<table class="table table-striped">
+				<table class="table table-striped table-invoice">
 					<thead>
 						<tr>
 							<th class="text-center">#</th>
@@ -55,13 +54,16 @@
 							<th class="text-center">HSN / SAC</th>
 							<th class="text-center">Unit</th>
 							<th class="text-right">Qty</th>
-							<th class="text-right">Rate</th>
-							<th class="text-right">Taxable Amount</th>
-							<th class="text-right">GST</th>
-							<th class="text-right">CGST</th>
-							<th class="text-right">SGST</th>
-							<th class="text-right">IGST</th>
-							<th class="text-right">Total Amount</th>
+							<th class="text-right">Rate ({{ currency }})</th>
+							<th class="text-right">Taxable Amount ({{ currency }})</th>
+							<th class="text-right">GST (%)</th>
+							{% if invoice_data.igstcheck %}
+								<th class="text-right">IGST ({{ currency }})</th>
+							{% else %}
+								<th class="text-right">CGST ({{ currency }})</th>
+								<th class="text-right">SGST ({{ currency }})</th>
+							{% endif %}
+							<th class="text-right">Total Amount ({{ currency }})</th>
 
 						</tr>
 					</thead>
@@ -73,63 +75,84 @@
 							<td class="text-center">{{ item.invoice_hsn }}</td>
 							<td class="text-center">{{ item.invoice_unit }}</td>
 							<td class="text-right">{{ item.invoice_qty }}</td>
-							<td class="text-right">{{ item.invoice_rate_without_gst }}</td>
-							<td class="text-right">{{ item.invoice_amt_without_gst }}</td>
-							<td class="text-right">{{ item.invoice_gst_percentage }} %</td>
-							<td class="text-right">{{ item.invoice_amt_cgst }}</td>
-							<td class="text-right">{{ item.invoice_amt_sgst }}</td>
-							<td class="text-right">{{ item.invoice_amt_igst }}</td>
-							<td class="text-right">{{ item.invoice_amt_with_gst }}</td>
+							<td class="text-right">{{ item.invoice_rate_without_gst|floatformat:2 }}</td>
+							<td class="text-right">{{ item.invoice_amt_without_gst|floatformat:2 }}</td>
+							<td class="text-right">{{ item.invoice_gst_percentage }}</td>
+							{% if invoice_data.igstcheck %}
+								<td class="text-right">{{ item.invoice_amt_igst|floatformat:2 }}</td>
+							{% else %}
+								<td class="text-right">{{ item.invoice_amt_cgst|floatformat:2 }}</td>
+								<td class="text-right">{{ item.invoice_amt_sgst|floatformat:2 }}</td>
+							{% endif %}
+							<td class="text-right">{{ item.invoice_amt_with_gst|floatformat:2 }}</td>
 						</tr>
 						{% endfor %}
+
+						<tr id="table-invoice-total-row">
+							{% if invoice_data.igstcheck %}
+								<td class="text-right" colspan="6">Total: </td>
+								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
+								<td class="text-right"></td>
+								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_igst|floatformat:2 }}</td>
+							{% else %}
+								<td class="text-right" colspan="6">Total: </td>
+								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
+								<td class="text-right"></td>
+								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_cgst|floatformat:2 }}</td>
+								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_sgst|floatformat:2 }}</td>
+							{% endif %}
+							<td class="text-right"><strong>{{ currency }} {{ invoice_data.invoice_total_amt_with_gst|floatformat:2 }}</strong></td>
+						</tr>
+
 					</tbody>
 				</table>
 			</div>
+
 			<div class="row">
-				<div class="col-lg-4 col-sm-5">
 
+
+				<div class="col-sm-6 col-lg-6 col-md-6">
 				</div>
 
-				<div class="col-lg-4 col-sm-5 ml-auto">
-					<table class="table table-clear">
-						<tbody>
+
+
+				<div class="col-sm-6 col-lg-6 col-md-6">
+					<table class="table text-right" id="invoice-grand-total-table">
+						<tr>
+							<td>Total Taxable Amount: </td>
+							<td>{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
+						</tr>
+						{% if invoice_data.igstcheck %}
 							<tr>
-								<td class="text-left">
-									<strong>SGST</strong>
-								</td>
-								<td class="text-right">{{invoice_data.invoice_total_amt_sgst}}</td>
+								<td>IGST: </td>
+								<td>{{ currency }} {{ invoice_data.invoice_total_amt_igst|floatformat:2 }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td>CGST: </td>
+								<td>{{ currency }} {{ invoice_data.invoice_total_amt_cgst|floatformat:2 }}</td>
 							</tr>
 							<tr>
-								<td class="text-left">
-									<strong>CGST</strong>
-								</td>
-								<td class="text-right">{{invoice_data.invoice_total_amt_cgst}}</td>
+								<td>SGST: </td>
+								<td>{{ currency }} {{ invoice_data.invoice_total_amt_sgst|floatformat:2 }}</td>
 							</tr>
-							<tr>
-								<td class="text-left">
-									<strong>IGST</strong>
-								</td>
-								<td class="text-right">{{invoice_data.invoice_total_amt_igst}}</td>
-							</tr>
-							<tr>
-								<td class="text-left">
-									<strong>Total</strong>
-								</td>
-								<td class="text-right">
-									<strong>{{ invoice_data.invoice_total_amt_with_gst }}</strong>
-								</td>
-							</tr>
-						</tbody>
+						{% endif %}
+						<tr>
+							<td>Invoice Total: </td>
+							<td>{{ currency }} {{invoice_data.invoice_total_amt_with_gst|floatformat:2 }}</td>
+						</tr>
 					</table>
-
 				</div>
+
+
 
 			</div>
+
 
 		</div>
 	</div>
 
 	<button onclick="window.print();" class="btn btn-primary d-print-none">Print Invoice</button>
-</div>
+
 
 {% endblock %}

@@ -53,3 +53,29 @@ input.form-control[type=number] {
 .customer-search-result:hover, .product-search-result:hover {
 	background: #b9b9b9;
 }
+
+
+[readonly] {
+   caret-color: transparent;
+   transition: none;
+   border: none;
+}
+
+[readonly]:focus {
+   caret-color: transparent;
+   box-shadow: none;
+   border: none;
+   
+}
+.table-invoice td {
+	border: solid #dee2e6 1px;
+}
+
+#table-invoice-total-row {
+	border-top: 2px solid #939393;
+	background: white;
+}
+
+#invoice-grand-total-table {
+	font-weight: bold;
+}
