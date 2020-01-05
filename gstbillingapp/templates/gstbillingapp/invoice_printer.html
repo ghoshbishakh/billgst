@@ -1,7 +1,4 @@
-{% extends "gstbillingapp/base.html" %}
-
-{% load static %}
-
+{% extends "gstbillingapp/base_bare.html" %}
 
 
 {% block content %}
@@ -39,6 +36,9 @@
 					<div>{{ invoice_data.customer_address }}</div>
 					<div>Phone: {{ invoice_data.customer_phone }}</div>
 					<div>GST No: {{ invoice_data.customer_gst }}</div>
+					{% if invoice_data.vehicle_number %}
+					<div><strong>Vehicle No:</strong> {{ invoice_data.vehicle_number }}</div>
+					{% endif %}
 				</div>
 
 
@@ -112,6 +112,12 @@
 
 
 				<div class="col-sm-6 col-lg-6 col-md-6">
+					<b>Bank Details</b><br>
+					Axis Bank<br> A/c No. 916020062627528<br>
+Branch: Bolpur  <br>IFSC: UTIB0000220<br>
+				<br><br>	
+Declaration: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.				
+					
 				</div>
 
 
@@ -141,7 +147,20 @@
 							<td>Invoice Total: </td>
 							<td>{{ currency }} {{invoice_data.invoice_total_amt_with_gst|floatformat:2 }}</td>
 						</tr>
+						<tr> 
+							<td colspan="2" class="text-middle">
+								Invoice Total In Words: {{ total_in_words }} only.
+							</td>
+						</tr>
+						<tr id="invoice-signature-row">
+							<td colspan="2"></td>
+						</tr>
+						<tr id="invoice-signature-text-row">
+							<td colspan="2">Authorized Signatory<br> E, & O.E.	</td>
+						</tr>
 					</table>
+
+
 				</div>
 
 

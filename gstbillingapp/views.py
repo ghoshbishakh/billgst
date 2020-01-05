@@ -1,5 +1,6 @@
 import datetime
 import json
+import num2words
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -98,6 +99,7 @@ def invoice_viewer(request, invoice_id):
     context = {}
     context['invoice'] = invoice_obj
     context['invoice_data'] = json.loads(invoice_obj.invoice_json)
-    context['currency'] = "₹"
     print(context['invoice_data'])
-    return render(request, 'gstbillingapp/invoice_viewer.html', context)
+    context['currency'] = "₹"
+    context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
+    return render(request, 'gstbillingapp/invoice_printer.html', context)

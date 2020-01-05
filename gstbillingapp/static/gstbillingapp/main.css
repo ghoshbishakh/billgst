@@ -67,8 +67,12 @@ input.form-control[type=number] {
    border: none;
    
 }
-.table-invoice td {
+.table-invoice td, .table-invoice th {
 	border: solid #dee2e6 1px;
+}
+
+.table-invoice td, .table-invoice th {
+    padding: .25rem;
 }
 
 #table-invoice-total-row {
@@ -76,6 +80,25 @@ input.form-control[type=number] {
 	background: white;
 }
 
-#invoice-grand-total-table {
+#invoice-grand-total-table td {
 	font-weight: bold;
+	padding: .25rem;
+}
+
+
+#invoice-signature-text-row {
+    border-top: : 2px solid;
+}
+
+#invoice-signature-row {
+	border-bottom: 2px solid;
+	height: 4em;
+}
+
+@page  
+{ 
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 5mm 5mm 5mm 5mm;  
 }
