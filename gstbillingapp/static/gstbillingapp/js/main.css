@@ -1,0 +1,108 @@
+input.form-control {
+	border-radius: 0;
+	padding: 0.1em;
+	font-size: 0.8em;
+}
+
+#invoice-form-items-table {
+	font-size: 0.8em;
+}
+
+input.form-control[type=number] {
+	-moz-appearance: none;
+	-webkit-appearance: textfield;
+}
+
+.table-bordered td.form-input-td {
+	padding: 0;
+	vertical-align: middle;
+}
+
+.table-bordered td, .table-bordered th {
+	padding: 0.25em;
+}
+
+.table-bordered tbody td, .table-bordered tbody th, .table-bordered thead th, .table-bordered thead td {
+	background: #f9f9f9;
+}
+
+.two-col-form td, .two-col-form th { 
+	width: 25%;
+}
+
+
+#customer_search_bar, #product_search_bar {
+	display: none;
+	background: #f9f9f9;
+	width: 20em;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	box-shadow: 0em 0em 1em #111;
+	padding: 0.2em;
+}
+
+.customer-search-result, .product-search-result {
+	padding: 0.2em;
+	margin: 0.4em;
+	border-bottom: 0.16em solid #b9b9b9;
+	cursor: pointer;
+}
+
+.customer-search-result:hover, .product-search-result:hover {
+	background: #b9b9b9;
+}
+
+
+[readonly] {
+   caret-color: transparent;
+   transition: none;
+   border: none;
+}
+
+[readonly]:focus {
+   caret-color: transparent;
+   box-shadow: none;
+   border: none;
+   
+}
+.table-invoice td, .table-invoice th {
+	border: solid #dee2e6 1px;
+}
+
+.table-invoice td, .table-invoice th {
+    padding: .25rem;
+}
+
+#table-invoice-total-row {
+	border-top: 2px solid #939393;
+	background: white;
+}
+
+#invoice-grand-total-table td {
+	font-weight: bold;
+	padding: .25rem;
+}
+
+
+#invoice-signature-text-row {
+    border-top: : 2px solid;
+}
+
+#invoice-signature-row {
+	border-bottom: 2px solid;
+	height: 4em;
+}
+
+#add_customer_btn, #add_product_btn {
+	float: right;
+}
+
+@page
+{
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 5mm 5mm 5mm 5mm;  
+}
