@@ -3,6 +3,7 @@ import json
 import num2words
 
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -15,6 +16,8 @@ from .models import Product
 from .utils import invoice_data_validator
 from .utils import invoice_data_processor
 from .utils import update_products_from_invoice
+
+from .forms import CustomerForm
 
 # Create your views here.
 def index(request):
@@ -103,3 +106,34 @@ def invoice_viewer(request, invoice_id):
     context['currency'] = "₹"
     context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
     return render(request, 'gstbillingapp/invoice_printer.html', context)
+
+
+def customer_edit(request, customer_id):
+    customer_obj = get_object_or_404(Customer, id=customer_id)
+    if request.method == "POST":
+        customer_form = CustomerForm(request.POST, instance=customer_obj)
+        if customer_form.is_valid():
+            new_customer = customer_form.save()
+            return redirect('customers')
+    context = {}
+    context['customer_form'] = CustomerForm(instance=customer_obj)
+    return render(request, 'gstbillingapp/customer_edit.html', context)
+
+def customer_delete(request):
+    print("===>")
+    print(request.POST)
+    if request.method == "POST":
+        customer_id = request.POST["customer_id"]
+        customer_obj = get_object_or_404(Customer, id=customer_id)
+        customer_obj.delete()
+    return redirect('customers')
+
+
+def customer_add(request):
+    if request.method == "POST":
+        customer_form = CustomerForm(request.POST)
+        new_customer = customer_form.save()
+        return redirect('customers')
+    context = {}
+    context['customer_form'] = CustomerForm()
+    return render(request, 'gstbillingapp/customer_edit.html', context)

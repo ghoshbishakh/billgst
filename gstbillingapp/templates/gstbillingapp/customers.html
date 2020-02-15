@@ -5,19 +5,72 @@
 
 
 {% block content %}
+<div class="row">
+	<div class="col">
 		<h2>Customers</h2>
+	</div>
+	<div class="col">
+		<a href="{% url 'customer_add' %}" id="add_customer_btn"><button type="button" class="btn btn-primary">Add New</button></a>
+	</div>
 
-		<table class="table table-bordered">
-		<tbody class="two-col-form">
-			{% for customer in customers %}
-			<tr>
- 				<td>{{customer.customer_name}}</td>
- 				<td>{{customer.customer_address}}</td>
- 				<td>{{customer.customer_phone}}</td>
- 				<td>{{customer.customer_gst}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-		</table>
 
+</div>
+<table class="table table-bordered">
+	<tbody class="two-col-form">
+		{% for customer in customers %}
+		<tr>
+			<td>{{customer.customer_name}}</td>
+			<td>{{customer.customer_address}}</td>
+			<td>{{customer.customer_phone}}</td>
+			<td>{{customer.customer_gst}}</td>
+			<td><a href="{% url 'customer_edit' customer.id %}"><button type="button" class="btn btn-dark">Edit</button></a></td>
+			<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#customerDeleteModal" data-customer-id="{{customer.id}}" data-customer-name="{{customer.customer_name}}">Delete</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<div class="modal fade" id="customerDeleteModal" tabindex="-1" role="dialog" aria-labelledby="customerDeleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="customerDeleteModalLabel">Are you sure?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form method="POST" action="{% url 'customer_delete' %}">
+			{% csrf_token %}
+			<div class="modal-body">
+				Are you sure you want to delete <b><span class="customer-name"></span></b>?
+					<div class="form-group">
+						<input hidden="true" type="text" class="form-control" name="customer_id">
+					</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-danger" >Yes</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block includejs %}
+<script type="text/javascript">
+$('#customerDeleteModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var customer_id = button.data('customer-id') // Extract info from data-* attributes
+	var customer_name = button.data('customer-name') // Extract info from data-* attributes
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+	modal.find('.modal-body input').val(customer_id)
+	console.log(customer_name)
+	modal.find('.customer-name').html(customer_name)
+})
+</script>
 {% endblock %}

@@ -95,8 +95,12 @@ input.form-control[type=number] {
 	height: 4em;
 }
 
-@page  
-{ 
+#add_customer_btn {
+	float: right;
+}
+
+@page
+{
     size: auto;   /* auto is the initial value */ 
 
     /* this affects the margin in the printer settings */ 

@@ -1,0 +1,30 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+		<h2>Edit Customer</h2>
+
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<label>Customer Name:</label>
+				{{customer_form.customer_name}}
+			</div>
+			<div class="form-group">
+				<label>Customer Address:</label>
+				{{customer_form.customer_address}}
+			</div>
+			<div class="form-group">
+				<label>Phone:</label>
+				{{customer_form.customer_phone}}
+			</div>
+			<div class="form-group">
+				<label>GST:</label>
+				{{customer_form.customer_gst}}
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+{% endblock %}
