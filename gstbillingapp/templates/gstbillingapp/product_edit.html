@@ -1,0 +1,34 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+		<h2>Edit Product</h2>
+
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<label>Product Name:</label>
+				{{product_form.product_name}}
+			</div>
+			<div class="form-group">
+				<label>HSN:</label>
+				{{product_form.product_hsn}}
+			</div>
+			<div class="form-group">
+				<label>Product Unit:</label>
+				{{product_form.product_unit}}
+			</div>
+			<div class="form-group">
+				<label>GST %:</label>
+				{{product_form.product_gst_percentage}}
+			</div>
+			<div class="form-group">
+				<label>Rate with GST:</label>
+				{{product_form.product_rate_with_gst}}
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+{% endblock %}

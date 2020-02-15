@@ -12,11 +12,16 @@
 	<div class="col">
 		<a href="{% url 'customer_add' %}" id="add_customer_btn"><button type="button" class="btn btn-primary">Add New</button></a>
 	</div>
-
-
 </div>
+
 <table class="table table-bordered">
 	<tbody class="two-col-form">
+		<tr>
+			<th>Customer Name</th>
+			<th>Address</th>
+			<th>Phone</th>
+			<th>GST NO</th>
+		</tr>
 		{% for customer in customers %}
 		<tr>
 			<td>{{customer.customer_name}}</td>

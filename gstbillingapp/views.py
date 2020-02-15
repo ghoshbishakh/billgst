@@ -18,6 +18,7 @@ from .utils import invoice_data_processor
 from .utils import update_products_from_invoice
 
 from .forms import CustomerForm
+from .forms import ProductForm
 
 # Create your views here.
 def index(request):
@@ -119,9 +120,8 @@ def customer_edit(request, customer_id):
     context['customer_form'] = CustomerForm(instance=customer_obj)
     return render(request, 'gstbillingapp/customer_edit.html', context)
 
+
 def customer_delete(request):
-    print("===>")
-    print(request.POST)
     if request.method == "POST":
         customer_id = request.POST["customer_id"]
         customer_obj = get_object_or_404(Customer, id=customer_id)
@@ -137,3 +137,34 @@ def customer_add(request):
     context = {}
     context['customer_form'] = CustomerForm()
     return render(request, 'gstbillingapp/customer_edit.html', context)
+
+
+def product_edit(request, product_id):
+    product_obj = get_object_or_404(Product, id=product_id)
+    if request.method == "POST":
+        product_form = ProductForm(request.POST, instance=product_obj)
+        if product_form.is_valid():
+            new_product = product_form.save()
+            return redirect('products')
+    context = {}
+    context['product_form'] = ProductForm(instance=product_obj)
+    return render(request, 'gstbillingapp/product_edit.html', context)
+
+
+def product_add(request):
+    if request.method == "POST":
+        product_form = ProductForm(request.POST)
+        if product_form.is_valid():
+            new_product = product_form.save()
+            return redirect('products')
+    context = {}
+    context['product_form'] = ProductForm()
+    return render(request, 'gstbillingapp/product_edit.html', context)
+
+
+def product_delete(request):
+    if request.method == "POST":
+        product_id = request.POST["product_id"]
+        product_obj = get_object_or_404(Product, id=product_id)
+        product_obj.delete()
+    return redirect('products')

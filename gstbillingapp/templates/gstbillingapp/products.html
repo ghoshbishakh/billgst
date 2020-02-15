@@ -5,18 +5,79 @@
 
 
 {% block content %}
-		<h2>Products</h2>
+		<div class="row">
+			<div class="col">
+				<h2>Products</h2>
+			</div>
+			<div class="col">
+				<a href="{% url 'product_add' %}" id="add_product_btn"><button type="button" class="btn btn-primary">Add New</button></a>
+			</div>
+		</div>
 
-		<table class="table table-bordered">
+		<table class="table table-bordered table-hover">
 		<tbody class="two-col-form">
+			<tr>
+				<th>Product Name</th>
+				<th>HSN</th>
+				<th>Rate With GST</th>
+				<th>GST %</th>
+			</tr>
 			{% for product in products %}
 			<tr>
  				<td>{{product.product_name}}</td>
  				<td>{{product.product_hsn}}</td>
  				<td>{{product.product_rate_with_gst}}</td>
  				<td>{{product.product_gst_percentage}}</td>
+ 				<td><a href="{% url 'product_edit' product.id %}"><button type="button" class="btn btn-primary">Edit</button></a></td>
+ 				<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#productDeleteModal" data-product-id="{{product.id}}" data-product-name="{{product.product_name}}">Delete</button></td>
 			</tr>
 			{% endfor %}
 		</tbody>
 		</table>
+
+<div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="productDeleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="productDeleteModalLabel">Are you sure?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form method="POST" action="{% url 'product_delete' %}">
+			{% csrf_token %}
+			<div class="modal-body">
+				Are you sure you want to delete <b><span class="product-name"></span></b>?
+					<div class="form-group">
+						<input hidden="true" type="text" class="form-control" name="product_id">
+					</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-danger" >Yes</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+
+{% block includejs %}
+<script type="text/javascript">
+$('#productDeleteModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var product_id = button.data('product-id') // Extract info from data-* attributes
+	var product_name = button.data('product-name') // Extract info from data-* attributes
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+	modal.find('.modal-body input').val(product_id)
+	console.log(product_name)
+	modal.find('.product-name').html(product_name)
+})
+</script>
 {% endblock %}

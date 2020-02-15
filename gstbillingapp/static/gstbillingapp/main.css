@@ -95,7 +95,7 @@ input.form-control[type=number] {
 	height: 4em;
 }
 
-#add_customer_btn {
+#add_customer_btn, #add_product_btn {
 	float: right;
 }
 
