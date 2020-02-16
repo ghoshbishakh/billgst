@@ -18,6 +18,10 @@ function setup_invoice_rows() {
        event.preventDefault();
        add_invoice_item_row();
     });
+
+    for (var i = 0; i <= 4; i++) {
+        add_invoice_item_row();
+    }
 }
 
 // UPDATING INVOICE TOTALS ================================================
@@ -300,5 +304,8 @@ $(document).ready(function() {
                 update_amounts($( this ));
             });
     });
+
+    // Show the invoice form
+    $("#invoice-form")[0].hidden = false;
 
 });
