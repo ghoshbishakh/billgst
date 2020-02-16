@@ -10,6 +10,7 @@ function add_invoice_item_row() {
     $('#invoice-form-items-table-body >tr:last input').val('');
 
     $('#invoice-form-items-table-body >tr:last td')[0].innerHTML = invoice_item_row_counter
+    update_amounts($('#invoice-form-items-table-body input[name=invoice-qty]:last'));
 }
 
 function setup_invoice_rows() {
@@ -69,6 +70,7 @@ function initialize_auto_calculation(){
 }
 
 function update_amounts(element){
+    var product = element.parent().parent().find('input[name=invoice-product]').val();
     var qty = parseInt(element.parent().parent().find('input[name=invoice-qty]').val());
     var rate_with_gst = parseFloat(element.parent().parent().find('input[name=invoice-rate-with-gst]').val());
     var gst_percentage = parseFloat(element.parent().parent().find('input[name=invoice-gst-percentage]').val());
@@ -79,16 +81,24 @@ function update_amounts(element){
     var sgst;
     var cgst;
     var igst;
-    if($('input[name=igstcheck]').is(':checked')){
+    if(product == ""){
         sgst = 0;
         cgst = 0;
-        igst = amt_without_gst * gst_percentage / 100;
+        igst = 0;
+        amt_without_gst = 0;
     }
     else {
-        sgst = amt_without_gst * gst_percentage / 200;
-        cgst = amt_without_gst * gst_percentage / 200;
-        igst = 0;
+        if($('input[name=igstcheck]').is(':checked')){
+            sgst = 0;
+            cgst = 0;
+            igst = amt_without_gst * gst_percentage / 100;
+        }
+        else {
+            sgst = amt_without_gst * gst_percentage / 200;
+            cgst = amt_without_gst * gst_percentage / 200;
+            igst = 0;
 
+        }
     }
     var amt_with_gst = amt_without_gst + cgst + sgst + igst;
 
