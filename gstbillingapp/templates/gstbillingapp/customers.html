@@ -14,14 +14,18 @@
 	</div>
 </div>
 
-<table class="table table-bordered">
-	<tbody class="two-col-form">
+<table class="table table-bordered" id="customer-table">
+	<thead>
 		<tr>
 			<th>Customer Name</th>
 			<th>Address</th>
 			<th>Phone</th>
 			<th>GST NO</th>
+			<th></th>
+			<th></th>
 		</tr>
+	</thead>
+	<tbody class="two-col-form">
 		{% for customer in customers %}
 		<tr>
 			<td>{{customer.customer_name}}</td>
@@ -76,6 +80,25 @@ $('#customerDeleteModal').on('show.bs.modal', function (event) {
 	modal.find('.modal-body input').val(customer_id)
 	console.log(customer_name)
 	modal.find('.customer-name').html(customer_name)
-})
+});
+
+
+$(document).ready( function () {
+	$('#customer-table').DataTable({
+		"order": [],
+		"columnDefs": [ {
+			"targets": 4,
+			"sortable": false,
+			"searchable": false
+		},
+		{
+			"targets": 5,
+			"sortable": false,
+			"searchable": false
+		} ],
+		"paging": false
+	});
+});
+
 </script>
 {% endblock %}
