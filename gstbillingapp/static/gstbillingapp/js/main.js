@@ -33,34 +33,34 @@ function update_invoice_totals() {
     $('input[name=invoice-amt-without-gst]').each(function(){
         sum_amt_without_gst += parseFloat($(this).val());
     });
-    $('input[name=invoice-total-amt-without-gst]').val(sum_amt_without_gst);
+    $('input[name=invoice-total-amt-without-gst]').val(sum_amt_without_gst.toFixed(2));
 
     // amount sgst
     sum_amt_sgst = 0
     $('input[name=invoice-amt-sgst]').each(function(){
         sum_amt_sgst += parseFloat($(this).val());
     });
-    $('input[name=invoice-total-amt-sgst]').val(sum_amt_sgst);
+    $('input[name=invoice-total-amt-sgst]').val(sum_amt_sgst.toFixed(2));
 
     // amount cgst
     sum_amt_cgst = 0
     $('input[name=invoice-amt-cgst]').each(function(){
         sum_amt_cgst += parseFloat($(this).val());
     });
-    $('input[name=invoice-total-amt-cgst]').val(sum_amt_cgst);
+    $('input[name=invoice-total-amt-cgst]').val(sum_amt_cgst.toFixed(2));
 
     // amount igst
     sum_amt_igst = 0
     $('input[name=invoice-amt-igst]').each(function(){
         sum_amt_igst += parseFloat($(this).val());
     });
-    $('input[name=invoice-total-amt-igst]').val(sum_amt_igst);
+    $('input[name=invoice-total-amt-igst]').val(sum_amt_igst.toFixed(2));
 
     sum_amt_with_gst = 0
     $('input[name=invoice-amt-with-gst]').each(function(){
         sum_amt_with_gst += parseFloat($(this).val());
     });
-    $('input[name=invoice-total-amt-with-gst]').val(sum_amt_with_gst);
+    $('input[name=invoice-total-amt-with-gst]').val(sum_amt_with_gst.toFixed(2));
 
 }
 
@@ -106,12 +106,12 @@ function update_amounts(element){
     }
     var amt_with_gst = amt_without_gst + cgst + sgst + igst;
 
-    element.parent().parent().find('input[name=invoice-rate-without-gst]').val(rate_without_gst);
-    element.parent().parent().find('input[name=invoice-amt-without-gst]').val(amt_without_gst);  
-    element.parent().parent().find('input[name=invoice-amt-sgst]').val(sgst);
-    element.parent().parent().find('input[name=invoice-amt-cgst]').val(cgst);
-    element.parent().parent().find('input[name=invoice-amt-igst]').val(igst);
-    element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst);
+    element.parent().parent().find('input[name=invoice-rate-without-gst]').val(rate_without_gst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-amt-without-gst]').val(amt_without_gst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-amt-sgst]').val(sgst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-amt-cgst]').val(cgst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-amt-igst]').val(igst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst.toFixed(2));
 
     update_invoice_totals();
 

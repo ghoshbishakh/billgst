@@ -23,6 +23,14 @@ from .forms import ProductForm
 # Create your views here.
 def index(request):
     context = {}
+    context['default_invoice_number'] = Invoice.objects.all().aggregate(Max('invoice_number'))['invoice_number__max']
+    if not context['default_invoice_number']:
+        context['default_invoice_number'] = 1
+    else:
+        context['default_invoice_number'] += 1
+
+    context['default_invoice_date'] = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
+
     if request.method == 'POST':
         print("POST received - Invoice Data")
 
@@ -58,16 +66,8 @@ def index(request):
                               invoice_customer=customer, invoice_json=invoice_data_processed_json)
         new_invoice.save()
         print("INVOICE SAVED")
-        return render(request, 'gstbillingapp/index.html', context)
+        return redirect('invoice_viewer', invoice_id=new_invoice.id)
 
-
-    context['default_invoice_number'] = Invoice.objects.all().aggregate(Max('invoice_number'))['invoice_number__max']
-    if not context['default_invoice_number']:
-        context['default_invoice_number'] = 1
-    else:
-        context['default_invoice_number'] += 1
-
-    context['default_invoice_date'] = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
     return render(request, 'gstbillingapp/index.html', context)
 
 
