@@ -8,6 +8,11 @@
 
 		<h2>Create Invoice</h2>
 
+		{% if validation_error %}
+			<div class="alert alert-danger" role="alert">
+			{{validation_error}}
+			</div>
+		{% endif %}
 		<form method="POST" id="invoice-form" hidden="true">
 
 			<table class="table table-bordered">
@@ -46,7 +51,7 @@
 						<th scope="row">Customer Mobile Number</th>
 						<td class="form-input-td"><input autocomplete="off" name="customer-phone" type="tel" class="form-control" id="customer-phone-input" placeholder="Customer Mobile Number"></td>
 						<th scope="row">Customer GST</th>
-						<td class="form-input-td"><input autocomplete="off" name="customer-gst" type="text" class="form-control" id="customer-gst-input" placeholder="Customer GST"></td>
+						<td class="form-input-td"><input autocomplete="off" name="customer-gst" type="text" class="form-control" id="customer-gst-input" placeholder="Customer GST" pattern="[A-Za-z0-9]{15}" required="true"></td>
 					</tr>
 
 				</tbody>

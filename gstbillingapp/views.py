@@ -36,7 +36,9 @@ def index(request):
 
         invoice_data = request.POST
 
-        if not invoice_data_validator(invoice_data):
+        validation_error = invoice_data_validator(invoice_data)
+        if validation_error:
+            context["validation_error"] = validation_error
             return render(request, 'gstbillingapp/index.html', context)
 
         # valid invoice data

@@ -11,7 +11,7 @@ def invoice_data_validator(invoice_data):
         invoice_number = int(invoice_data['invoice-number'])
     except:
         print("Error: Incorrect Invoice Number")
-        return False
+        return "Error: Incorrect Invoice Number"
 
     # invoice date
     try:
@@ -19,26 +19,26 @@ def invoice_data_validator(invoice_data):
         datetime.datetime.strptime(date_text, '%Y-%m-%d')
     except:
         print("Error: Incorrect Invoice Date")
-        return False
+        return "Error: Incorrect Invoice Date"
 
     # Validate Customer Data ---------
 
     # customer-name
     if len(invoice_data['customer-name']) < 1 or len(invoice_data['customer-name']) > 200:
         print("Error: Incorrect Customer Name")
-        return False
+        return "Error: Incorrect Customer Name"
 
     if len(invoice_data['customer-address']) > 600:
         print("Error: Incorrect Customer Address")
-        return False
+        return "Error: Incorrect Customer Address"
 
     if len(invoice_data['customer-phone']) > 14:
         print("Error: Incorrect Customer Phone")
-        return False
+        return "Error: Incorrect Customer Phone"
     if len(invoice_data['customer-gst']) != 15 and len(invoice_data['customer-gst']) != 0:
         print("Error: Incorrect Customer GST")
-        return False
-    return True
+        return "Error: Incorrect Customer GST"
+    return None
 
 
 def invoice_data_processor(invoice_post_data):
