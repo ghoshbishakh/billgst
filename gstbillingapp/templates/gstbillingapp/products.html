@@ -14,25 +14,29 @@
 			</div>
 		</div>
 
-		<table class="table table-bordered table-hover">
-		<tbody class="two-col-form">
-			<tr>
-				<th>Product Name</th>
-				<th>HSN</th>
-				<th>Rate With GST</th>
-				<th>GST %</th>
-			</tr>
-			{% for product in products %}
-			<tr>
- 				<td>{{product.product_name}}</td>
- 				<td>{{product.product_hsn}}</td>
- 				<td>{{product.product_rate_with_gst}}</td>
- 				<td>{{product.product_gst_percentage}}</td>
- 				<td><a href="{% url 'product_edit' product.id %}"><button type="button" class="btn btn-primary">Edit</button></a></td>
- 				<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#productDeleteModal" data-product-id="{{product.id}}" data-product-name="{{product.product_name}}">Delete</button></td>
-			</tr>
-			{% endfor %}
-		</tbody>
+		<table class="table table-bordered" id="product-table">
+			<thead>
+				<tr>
+					<th>Product Name</th>
+					<th>HSN</th>
+					<th>Rate With GST</th>
+					<th>GST %</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody class="two-col-form">
+				{% for product in products %}
+				<tr>
+	 				<td>{{product.product_name}}</td>
+	 				<td>{{product.product_hsn}}</td>
+	 				<td>{{product.product_rate_with_gst}}</td>
+	 				<td>{{product.product_gst_percentage}}</td>
+	 				<td><a href="{% url 'product_edit' product.id %}"><button type="button" class="btn btn-primary">Edit</button></a></td>
+	 				<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#productDeleteModal" data-product-id="{{product.id}}" data-product-name="{{product.product_name}}">Delete</button></td>
+				</tr>
+				{% endfor %}
+			</tbody>
 		</table>
 
 <div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="productDeleteModalLabel" aria-hidden="true">
@@ -79,5 +83,23 @@ $('#productDeleteModal').on('show.bs.modal', function (event) {
 	console.log(product_name)
 	modal.find('.product-name').html(product_name)
 })
+
+$(document).ready( function () {
+	$('#product-table').DataTable({
+		"order": [],
+		"columnDefs": [ {
+			"targets": 4,
+			"sortable": false,
+			"searchable": false
+		},
+		{
+			"targets": 5,
+			"sortable": false,
+			"searchable": false
+		} ],
+		"paging": false
+	});
+});
+
 </script>
 {% endblock %}

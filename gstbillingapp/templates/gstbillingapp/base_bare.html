@@ -18,6 +18,10 @@
 	<link rel="stylesheet" href="{% static "gstbillingapp/bootstrap-4.4.1-dist/css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "gstbillingapp/main.css" %}">
 
+	<!-- DataTables CSS  -->
+	<link rel="stylesheet" href="{% static "gstbillingapp/DataTables/jquery.dataTables.min.css" %}">
+	<link rel="stylesheet" href="{% static "gstbillingapp/DataTables/dataTables.bootstrap4.min.css" %}">
+
 	{% block includecss %}
 	{% endblock %}
 
@@ -70,7 +74,8 @@
 
 	<script src="{% static "gstbillingapp/bootstrap-4.4.1-dist/js/bootstrap.min.js" %}"></script>
 
-
+	<!-- DataTables  -->
+	<script src="{% static "gstbillingapp/DataTables/jquery.dataTables.min.js" %}"></script>
 
 	{% block includejs %}
 	{% endblock %}

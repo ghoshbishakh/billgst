@@ -8,11 +8,20 @@
 
 		<h2>Invoices</h2>
 
-		<table class="table table-bordered">
+		<table class="table table-bordered" id="invoice-table">
+		<thead>
+			<tr>
+				<!-- <th>Incoice ID</th> -->
+				<th>Invoice Number</th>
+				<th>Date</th>
+				<th>Customer</th>
+				<th></th>
+			</tr>
+		</thead>
 		<tbody class="two-col-form">
 			{% for invoice in invoices %}
 			<tr>
- 				<td>{{invoice.id}}</td>
+ 				<!-- <td>{{invoice.id}}</td> -->
  				<td>{{invoice.invoice_number}}</td>
  				<td>{{invoice.invoice_date}}</td>
  				<td>{{invoice.invoice_customer}}</td>
@@ -23,4 +32,21 @@
 		</table>
 
 
+{% endblock %}
+
+
+{% block includejs %}
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#invoice-table').DataTable({
+			"order": [],
+			"columnDefs": [ {
+				"targets": 3,
+				"sortable": false,
+				"searchable": false
+			} ],
+			"paging": false
+		});
+	});
+</script>
 {% endblock %}

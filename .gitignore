@@ -1,3 +1,5 @@
+venv
+
 # SQLite
 *.sqlite3
 
