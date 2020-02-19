@@ -1,10 +1,17 @@
 from django.urls import path
+from django.urls import include
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+
+    path('login', views.login_view, name='login_view'),
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('invoices', views.invoices, name='invoices'),
+    path('invoice/<int:invoice_id>', views.invoice_viewer, name='invoice_viewer'),
+
     path('customers', views.customers, name='customers'),
     path('customers/add', views.customer_add, name='customer_add'),
     path('customers/edit/<int:customer_id>', views.customer_edit, name='customer_edit'),
@@ -15,8 +22,10 @@ urlpatterns = [
     path('products/add', views.product_add, name='product_add'),
     path('products/edit/<int:product_id>', views.product_edit, name='product_edit'),
     path('products/delete', views.product_delete, name='product_delete'),
-
     path('productsjson', views.productsjson, name='productsjson'),
 
-    path('invoice/<int:invoice_id>', views.invoice_viewer, name='invoice_viewer'),
+    path('profile', views.user_profile, name='user_profile'),
+    path('profile/edit', views.user_profile_edit, name='user_profile_edit'),
+
+
 ]

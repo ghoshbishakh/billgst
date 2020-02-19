@@ -1,0 +1,35 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+		<h2>Edit Profile</h2>
+
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<label>Business Name:</label>
+				{{user_profile_form.business_title}}
+			</div>
+			<div class="form-group">
+				<label>Address:</label>
+				{{user_profile_form.business_address}}
+			</div>
+			<div class="form-group">
+				<label>Email:</label>
+				{{user_profile_form.business_email}}
+			</div>
+			<div class="form-group">
+				<label>Phone:</label>
+				{{user_profile_form.business_phone}}
+			</div>
+			<div class="form-group">
+				<label>GST:</label>
+				{{user_profile_form.business_gst}}
+			</div>
+
+			<input type="submit" value="Submit">
+		</form>
+{% endblock %}

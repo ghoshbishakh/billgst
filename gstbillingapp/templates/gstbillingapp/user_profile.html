@@ -1,0 +1,31 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+		<h2>Profile</h2>
+
+			<div>
+				<label>Business Name:</label>
+				{{user_profile.business_title}}
+			</div>
+			<div>
+				<label>Address:</label>
+				<pre>{{user_profile.business_address}}</pre>
+			</div>
+			<div>
+				<label>Email:</label>
+				{{user_profile.business_email}}
+			</div>
+			<div>
+				<label>Phone:</label>
+				{{user_profile.business_phone}}
+			</div>
+			<div>
+				<label>GST:</label>
+				{{user_profile.business_gst}}
+			</div>
+
+{% endblock %}

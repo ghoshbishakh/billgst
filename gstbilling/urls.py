@@ -20,4 +20,5 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('gstbillingapp.urls')),
+    path('', include('social_django.urls', namespace='social'))
 ]
