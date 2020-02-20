@@ -104,6 +104,11 @@ input.form-control[type=number] {
 	float: right;
 }
 
+
+#invoice_profile_data {
+	white-space: pre-line;
+}
+
 @page
 {
     size: auto;   /* auto is the initial value */ 

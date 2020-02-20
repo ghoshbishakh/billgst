@@ -117,12 +117,15 @@ def invoices(request):
 @login_required
 def invoice_viewer(request, invoice_id):
     invoice_obj = get_object_or_404(Invoice, user=request.user, id=invoice_id)
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
     context = {}
     context['invoice'] = invoice_obj
     context['invoice_data'] = json.loads(invoice_obj.invoice_json)
     print(context['invoice_data'])
     context['currency'] = "₹"
     context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
+    context['user_profile'] = user_profile
     return render(request, 'gstbillingapp/invoice_printer.html', context)
 
 

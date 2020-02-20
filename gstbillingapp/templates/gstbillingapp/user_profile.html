@@ -5,27 +5,34 @@
 
 
 {% block content %}
-		<h2>Profile</h2>
+	<div class="row">
+		<div class="col">
+			<h2>Profile</h2>
+		</div>
+		<div class="col">
+			<a href="{% url 'user_profile_edit' %}" id="user_profile_edit_btn"><button type="button" class="btn btn-primary">Edit</button></a>
+		</div>
+	</div>
 
-			<div>
-				<label>Business Name:</label>
-				{{user_profile.business_title}}
-			</div>
-			<div>
-				<label>Address:</label>
-				<pre>{{user_profile.business_address}}</pre>
-			</div>
-			<div>
-				<label>Email:</label>
-				{{user_profile.business_email}}
-			</div>
-			<div>
-				<label>Phone:</label>
-				{{user_profile.business_phone}}
-			</div>
-			<div>
-				<label>GST:</label>
-				{{user_profile.business_gst}}
-			</div>
+	<div>
+		<label>Business Name:</label>
+		{{user_profile.business_title}}
+	</div>
+	<div>
+		<label>Address:</label>
+		<pre>{{user_profile.business_address}}</pre>
+	</div>
+	<div>
+		<label>Email:</label>
+		{{user_profile.business_email}}
+	</div>
+	<div>
+		<label>Phone:</label>
+		{{user_profile.business_phone}}
+	</div>
+	<div>
+		<label>GST:</label>
+		{{user_profile.business_gst}}
+		</div>
 
 {% endblock %}
