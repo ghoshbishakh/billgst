@@ -19,10 +19,16 @@
 					<div>
 						<strong>{{user_profile.business_title}}</strong>
 					</div>
-					<div id="invoice_profile_data">{{user_profile.business_address}}</div>
-					<div>EMAIL: {{user_profile.business_email}}</div>
-					<div>Phone: {{user_profile.business_phone}}</div>
-					<div>GST No: {{user_profile.business_gst}}</div>
+						<div id="invoice_profile_data">{{user_profile.business_address}}</div>
+					{% if user_profile.business_email %}
+						<div>EMAIL: {{user_profile.business_email}}</div>
+					{% endif %}
+					{% if user_profile.business_phone %}
+						<div>Phone: {{user_profile.business_phone}}</div>
+					{% endif %}
+					{% if user_profile.business_gst %}
+						<div>GST No: {{user_profile.business_gst}}</div>
+					{% endif %}
 				</div>
 
 
