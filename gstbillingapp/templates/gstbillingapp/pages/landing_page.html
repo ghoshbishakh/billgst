@@ -1,0 +1,58 @@
+{% extends "gstbillingapp/pages/base.html" %}
+
+
+{% load static %}
+<!doctype html>
+
+{% block content %}
+
+<div class="jumbotron">
+	<h1 class="display-3">BillGST</h1>
+	<p class="lead">The simplest GST invoicing software!</p>
+	<hr class="my-4">
+	<p>Easily create invoices, manage products and customers.</p>
+	<p class="lead">
+		<a class="btn btn-primary btn-lg" href="{% url 'invoice_create' %}" role="button">Create Invoice</a>
+	</p>
+</div>
+
+<div class="row">
+	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Simple Interface</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_interface.png" %}">
+			</div>
+		</div>
+	</div>
+	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Customer and Product Search</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_search.png" %}">
+			</div>
+		</div>
+	</div>
+	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Printable Invoices</h4>
+			<ul>
+				<li><h5>Clean Invoice Format</h5></li>
+			</ul>
+			<ul>
+				<li><h5>Print Invoices directly with one click.</h5></li>
+			</ul>
+			<ul>
+				<li><h5>Save Invoices as PDF</h5></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
+
+
+

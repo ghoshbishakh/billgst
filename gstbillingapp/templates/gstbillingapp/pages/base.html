@@ -1,0 +1,64 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>
+		{% block title %}
+		GST Billing
+		{% endblock %}
+	</title>
+
+
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static "gstbillingapp/bootstrap-4.4.1-dist/css/bootstrap-cosmo.min.css" %}">
+	<link rel="stylesheet" href="{% static "gstbillingapp/main.css" %}">
+
+	<!-- DataTables CSS  -->
+	<link rel="stylesheet" href="{% static "gstbillingapp/DataTables/jquery.dataTables.min.css" %}">
+	<link rel="stylesheet" href="{% static "gstbillingapp/DataTables/dataTables.bootstrap4.min.css" %}">
+
+	{% block includecss %}
+	{% endblock %}
+
+</head>
+
+<body>
+
+	<div class="container">
+		{% include "gstbillingapp/pages/navbar.html" %}
+		<!-- Content here -->
+
+		{% block content %}
+		CONTENT BLOCK
+		{% endblock %}
+
+	</div>
+
+
+
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	
+	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+	<script src="{% static "gstbillingapp/js/jquery-3.4.1.min.js" %}"></script>
+	<script src="{% static "gstbillingapp/js/popper.min.js" %}"></script>
+
+	<script src="{% static "gstbillingapp/bootstrap-4.4.1-dist/js/bootstrap.min.js" %}"></script>
+
+	<!-- DataTables  -->
+	<script src="{% static "gstbillingapp/DataTables/jquery.dataTables.min.js" %}"></script>
+
+
+	{% block includejs %}
+	{% endblock %}
+
+</body>
+
+
+</html>

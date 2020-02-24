@@ -27,7 +27,7 @@ from .forms import UserProfileForm
 
 # Create your views here.
 @login_required
-def index(request):
+def invoice_create(request):
     context = {}
     context['default_invoice_number'] = Invoice.objects.filter(user=request.user).aggregate(Max('invoice_number'))['invoice_number__max']
     if not context['default_invoice_number']:
@@ -45,7 +45,7 @@ def index(request):
         validation_error = invoice_data_validator(invoice_data)
         if validation_error:
             context["validation_error"] = validation_error
-            return render(request, 'gstbillingapp/index.html', context)
+            return render(request, 'gstbillingapp/invoice_create.html', context)
 
         # valid invoice data
         print("Valid Invoice Data")
@@ -78,7 +78,7 @@ def index(request):
         print("INVOICE SAVED")
         return redirect('invoice_viewer', invoice_id=new_invoice.id)
 
-    return render(request, 'gstbillingapp/index.html', context)
+    return render(request, 'gstbillingapp/invoice_create.html', context)
 
 
 @login_required
@@ -224,3 +224,10 @@ def user_profile(request):
 def login_view(request):
     context = {}
     return render(request, 'gstbillingapp/login.html', context)
+
+
+# ================= Static Pages ==============================
+
+def landing_page(request):
+    context = {}
+    return render(request, 'gstbillingapp/pages/landing_page.html', context)
