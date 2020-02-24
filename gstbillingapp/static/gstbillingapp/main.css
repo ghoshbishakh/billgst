@@ -4,6 +4,8 @@ input.form-control {
 	font-size: 0.8em;
 }
 
+/*Invoice Page *******************************************/
+
 #invoice-form input{
 	font-size: 0.9em;
 	color: black;
@@ -100,6 +102,11 @@ input.form-control[type=number] {
 	height: 4em;
 }
 
+
+
+
+/*Customer and Product Page ************************/
+
 #add_customer_btn, #add_product_btn {
 	float: right;
 }
@@ -109,10 +116,19 @@ input.form-control[type=number] {
 	white-space: pre-line;
 }
 
+/* Print invoice page ************************************/
+
 @page
 {
     size: auto;   /* auto is the initial value */ 
 
     /* this affects the margin in the printer settings */ 
     margin: 5mm 5mm 5mm 5mm;  
+}
+
+
+/* Login Page ******************************************/
+#login-card {
+	margin-top: 5em;
+	text-align: center;
 }
