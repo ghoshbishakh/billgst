@@ -4,11 +4,21 @@
 {% load static %}
 <!doctype html>
 
+{% block title %}
+BillGST - The simplest free GST invoicing app.
+{% endblock %}
+
+{% block metatags %}
+<meta name="description" content="Create GST invoice/bills for free. Easy interface with product and customer management. Print or save invoices as PDF.">
+<meta name="google-site-verification" content="MJbX1a9Fs1MIE1tnpRnp4At9OzVMxoumTAvOWUlG8-w" />
+<link rel="canonical" href="https://billgst.in/" />
+{% endblock %}
+
 {% block content %}
 
 <div class="jumbotron">
 	<h1 class="display-3">BillGST</h1>
-	<p class="lead">The simplest GST invoicing software!</p>
+	<h2 class="display-6">The simplest GST invoicing software!</h2>
 	<hr class="my-4">
 	<p>Easily create invoices, manage products and customers.</p>
 	<p class="lead">
@@ -21,7 +31,7 @@
 		<div class="card text-white bg-primary mb-3">
 			<div class="card-body">
 			<h4 class="card-title">Simple Interface</h4>
-			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_interface.png" %}">
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_interface.png" %}" alt="Simple Interface">
 			</div>
 		</div>
 	</div>
@@ -29,7 +39,7 @@
 		<div class="card text-white bg-primary mb-3">
 			<div class="card-body">
 			<h4 class="card-title">Customer and Product Search</h4>
-			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_search.png" %}">
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_search.png" %}" alt="Customer and Product Search">
 			</div>
 		</div>
 	</div>
