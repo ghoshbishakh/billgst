@@ -13,26 +13,29 @@
 			<a href="{% url 'user_profile_edit' %}" id="user_profile_edit_btn"><button type="button" class="btn btn-primary">Edit</button></a>
 		</div>
 	</div>
-
-	<div>
-		<label>Business Name:</label>
-		{{user_profile.business_title}}
-	</div>
-	<div>
-		<label>Address:</label>
-		<pre>{{user_profile.business_address}}</pre>
-	</div>
-	<div>
-		<label>Email:</label>
-		{{user_profile.business_email}}
-	</div>
-	<div>
-		<label>Phone:</label>
-		{{user_profile.business_phone}}
-	</div>
-	<div>
-		<label>GST:</label>
-		{{user_profile.business_gst}}
-		</div>
+	<table class="table">
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row" class="text-right">Business Name:</th>
+				<td class="form-input-td customer_search_area">{{user_profile.business_title}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Address:</th>
+				<td class="form-input-td">{{user_profile.business_address}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Email:</th>
+				<td class="form-input-td">{{user_profile.business_email}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Phone:</th>
+				<td class="form-input-td">{{user_profile.business_phone}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">GST:</th>
+				<td class="form-input-td">{{user_profile.business_gst}}</td>
+			</tr>
+		</tbody>
+	</table>
 
 {% endblock %}
