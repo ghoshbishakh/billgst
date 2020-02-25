@@ -54,8 +54,15 @@ def invoice_create(request):
         # save customer
         customer = None
         if len(invoice_data['customer-gst']) == 15:
-            if Customer.objects.filter(user=request.user, customer_gst=invoice_data['customer-gst']).exists():
-                customer = Customer.objects.get(user=request.user, customer_gst=invoice_data['customer-gst'])
+            try:
+                customer = Customer.objects.get(user=request.user,
+                                                customer_name=invoice_data['customer-name'],
+                                                customer_address=invoice_data['customer-address'],
+                                                customer_phone=invoice_data['customer-phone'],
+                                                customer_gst=invoice_data['customer-gst'])
+            except:
+                pass
+
         if not customer:
             customer = Customer(user=request.user,
                 customer_name=invoice_data['customer-name'],

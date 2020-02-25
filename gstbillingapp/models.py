@@ -40,7 +40,7 @@ class Customer(models.Model):
     customer_name = models.CharField(max_length=200)
     customer_address = models.TextField(max_length=600, blank=True, null=True)
     customer_phone = models.CharField(max_length=14, blank=True, null=True)
-    customer_gst = models.CharField(max_length=15, unique=True, blank=True, null=True)
+    customer_gst = models.CharField(max_length=15, blank=True, null=True)
     def __str__(self):
         return self.customer_name
 
