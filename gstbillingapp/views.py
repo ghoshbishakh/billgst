@@ -28,6 +28,11 @@ from .forms import UserProfileForm
 # Create your views here.
 @login_required
 def invoice_create(request):
+    # if business info is blank redirect to update it
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    if not user_profile.business_title:
+        return redirect('user_profile_edit')
+
     context = {}
     context['default_invoice_number'] = Invoice.objects.filter(user=request.user).aggregate(Max('invoice_number'))['invoice_number__max']
     if not context['default_invoice_number']:
