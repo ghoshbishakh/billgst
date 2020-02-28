@@ -26,6 +26,11 @@ urlpatterns = [
     path('products/delete', views.product_delete, name='product_delete'),
     path('productsjson', views.productsjson, name='productsjson'),
 
+    path('inventory', views.inventory, name='inventory'),
+    path('inventory/<int:inventory_id>', views.inventory_logs, name='inventory_logs'),
+    path('inventory/<int:inventory_id>/addupdate', views.inventory_logs_add, name='inventory_logs_add'),
+
+
     path('profile', views.user_profile, name='user_profile'),
     path('profile/edit', views.user_profile_edit, name='user_profile_edit'),
 

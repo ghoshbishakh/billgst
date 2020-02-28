@@ -75,6 +75,7 @@ class InventoryLog(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    last_modified = models.DateTimeField(auto_now=True)
     change = models.IntegerField(default=0)
     CHANGE_TYPES = [
         (0, 'Other'),
@@ -87,9 +88,15 @@ class InventoryLog(models.Model):
     associated_invoice = models.ForeignKey(Invoice, blank=True, null=True, default=None, on_delete=models.SET_NULL)
     description = models.TextField(max_length=600, blank=True, null=True)
 
+    def __str__(self):
+        return self.product.product_name + " | " + str(self.change) + " | " + self.description + " | " + str(self.date)
+
 class Inventory(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
     current_stock = models.IntegerField(default=0)
     alert_level = models.IntegerField(default=0)
     last_log = models.ForeignKey(InventoryLog, null=True, blank=True, default=None, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.product.product_name

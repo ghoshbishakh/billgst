@@ -2,6 +2,8 @@ from django.forms import ModelForm
 from .models import Customer
 from .models import Product
 from .models import UserProfile
+from .models import InventoryLog
+
 
 class CustomerForm(ModelForm):
 	 class Meta:
@@ -25,3 +27,9 @@ class UserProfileForm(ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ['business_title', 'business_address', 'business_email', 'business_phone', 'business_gst']
+
+
+class InventoryLogForm(ModelForm):
+	class Meta:
+		model = InventoryLog
+		fields = ['date', 'change', 'change_type', 'description']

@@ -16,14 +16,19 @@ from .models import Customer
 from .models import Invoice
 from .models import Product
 from .models import UserProfile
+from .models import Inventory
+from .models import InventoryLog
 
 from .utils import invoice_data_validator
 from .utils import invoice_data_processor
 from .utils import update_products_from_invoice
+from .utils import update_inventory
+from .utils import create_inventory
 
 from .forms import CustomerForm
 from .forms import ProductForm
 from .forms import UserProfileForm
+from .forms import InventoryLogForm
 
 # Create your views here.
 @login_required
@@ -49,7 +54,7 @@ def invoice_create(request):
 
         validation_error = invoice_data_validator(invoice_data)
         if validation_error:
-            context["validation_error"] = validation_error
+            context["error_message"] = validation_error
             return render(request, 'gstbillingapp/invoice_create.html', context)
 
         # valid invoice data
@@ -58,17 +63,22 @@ def invoice_create(request):
         invoice_data_processed = invoice_data_processor(invoice_data)
         # save customer
         customer = None
-        if len(invoice_data['customer-gst']) == 15:
-            try:
-                customer = Customer.objects.get(user=request.user,
-                                                customer_name=invoice_data['customer-name'],
-                                                customer_address=invoice_data['customer-address'],
-                                                customer_phone=invoice_data['customer-phone'],
-                                                customer_gst=invoice_data['customer-gst'])
-            except:
-                pass
+
+        try:
+            customer = Customer.objects.get(user=request.user,
+                                            customer_name=invoice_data['customer-name'],
+                                            customer_address=invoice_data['customer-address'],
+                                            customer_phone=invoice_data['customer-phone'],
+                                            customer_gst=invoice_data['customer-gst'])
+        except:
+            print("===============> customer not found")
+            print(invoice_data['customer-name'])
+            print(invoice_data['customer-address'])
+            print(invoice_data['customer-phone'])
+            print(invoice_data['customer-gst'])
 
         if not customer:
+            print("CREATING CUSTOMER===============>")
             customer = Customer(user=request.user,
                 customer_name=invoice_data['customer-name'],
                 customer_address=invoice_data['customer-address'],
@@ -88,9 +98,36 @@ def invoice_create(request):
                               invoice_customer=customer, invoice_json=invoice_data_processed_json)
         new_invoice.save()
         print("INVOICE SAVED")
+
+        update_inventory(new_invoice, request)
+        print("INVENTORY UPDATED")
+
         return redirect('invoice_viewer', invoice_id=new_invoice.id)
 
     return render(request, 'gstbillingapp/invoice_create.html', context)
+
+
+@login_required
+def invoices(request):
+    context = {}
+    context['invoices'] = Invoice.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'gstbillingapp/invoices.html', context)
+
+
+@login_required
+def invoice_viewer(request, invoice_id):
+    invoice_obj = get_object_or_404(Invoice, user=request.user, id=invoice_id)
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    context = {}
+    context['invoice'] = invoice_obj
+    context['invoice_data'] = json.loads(invoice_obj.invoice_json)
+    print(context['invoice_data'])
+    context['currency'] = "₹"
+    context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
+    context['user_profile'] = user_profile
+    return render(request, 'gstbillingapp/invoice_printer.html', context)
+
 
 
 @login_required
@@ -117,28 +154,6 @@ def customersjson(request):
 def productsjson(request):
     products = list(Product.objects.filter(user=request.user).values())
     return JsonResponse(products, safe=False)
-
-
-@login_required
-def invoices(request):
-    context = {}
-    context['invoices'] = Invoice.objects.filter(user=request.user).order_by('-id')
-    return render(request, 'gstbillingapp/invoices.html', context)
-
-
-@login_required
-def invoice_viewer(request, invoice_id):
-    invoice_obj = get_object_or_404(Invoice, user=request.user, id=invoice_id)
-    user_profile = get_object_or_404(UserProfile, user=request.user)
-
-    context = {}
-    context['invoice'] = invoice_obj
-    context['invoice_data'] = json.loads(invoice_obj.invoice_json)
-    print(context['invoice_data'])
-    context['currency'] = "₹"
-    context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
-    context['user_profile'] = user_profile
-    return render(request, 'gstbillingapp/invoice_printer.html', context)
 
 
 @login_required
@@ -197,6 +212,8 @@ def product_add(request):
             new_product = product_form.save(commit=False)
             new_product.user = request.user
             new_product.save()
+            create_inventory(new_product)
+
             return redirect('products')
     context = {}
     context['product_form'] = ProductForm()
@@ -236,6 +253,63 @@ def user_profile(request):
 def login_view(request):
     context = {}
     return render(request, 'gstbillingapp/login.html', context)
+
+
+# ================= Inventory Views ===========================
+@login_required
+def inventory(request):
+    context = {}
+    context['inventory_list'] = Inventory.objects.filter(user=request.user)
+    context['untracked_products'] = Product.objects.filter(user=request.user, inventory=None)
+    return render(request, 'gstbillingapp/inventory.html', context)
+
+@login_required
+def inventory_logs(request, inventory_id):
+    context = {}
+    inventory = get_object_or_404(Inventory, id=inventory_id, user=request.user)
+    inventory_logs = InventoryLog.objects.filter(user=request.user, product=inventory.product).order_by('-id')
+    context['inventory'] = inventory
+    context['inventory_logs'] = inventory_logs
+    return render(request, 'gstbillingapp/inventory_logs.html', context)
+
+
+@login_required
+def inventory_logs_add(request, inventory_id):
+    context = {}
+    inventory = get_object_or_404(Inventory, id=inventory_id, user=request.user)
+    inventory_logs = Inventory.objects.filter(user=request.user, product=inventory.product)
+    context['inventory'] = inventory
+    context['inventory_logs'] = inventory_logs
+    context['form'] = InventoryLogForm()
+
+    if request.method == "POST":
+        inventory_log_form = InventoryLogForm(request.POST)
+        invoice_no = request.POST["invoice_no"]
+        invoice = None
+        if invoice_no:
+            try:
+                invoice_no = int(invoice_no)
+                invoice = Invoice.objects.get(user=request.user, invoice_number=invoice_no)
+            except:
+                context['error_message'] = "Incorrect invoice number %s"%(invoice_no,)
+                return render(request, 'gstbillingapp/inventory_logs_add.html', context)
+                context['form'] = inventory_log_form
+                return render(request, 'gstbillingapp/inventory_logs_add.html', context)
+
+
+        inventory_log = inventory_log_form.save(commit=False)
+        inventory_log.user = request.user
+        inventory_log.product = inventory.product
+        if invoice:
+            inventory_log.associated_invoice = invoice
+        inventory_log.save()
+        inventory.current_stock = inventory.current_stock + inventory_log.change
+        inventory.last_log = inventory_log
+        inventory.save()
+        return redirect('inventory_logs', inventory.id)
+
+    
+    return render(request, 'gstbillingapp/inventory_logs_add.html', context)
 
 
 # ================= Static Pages ==============================

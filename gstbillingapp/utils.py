@@ -1,6 +1,9 @@
 import datetime
-from .models import Product
+import json
 
+from .models import Product
+from .models import Inventory
+from .models import InventoryLog
 
 def invoice_data_validator(invoice_data):
     
@@ -94,9 +97,36 @@ def invoice_data_processor(invoice_post_data):
     return processed_invoice_data
 
 
+def create_inventory(product):
+    if not Inventory.objects.filter(user=product.user, product=product).exists():
+        new_inventory = Inventory(user=product.user, product=product)
+        new_inventory.save()
+
+def update_inventory(invoice, request):
+    invoice_data =  json.loads(invoice.invoice_json)
+    for item in invoice_data['items']:
+        product = Product.objects.get(user=request.user,
+                                      product_name=item['invoice_product'],
+                                      product_hsn=item['invoice_hsn'],
+                                      product_unit=item['invoice_unit'],
+                                      product_gst_percentage=item['invoice_gst_percentage'])
+        inventory = Inventory.objects.get(user=product.user, product=product)
+        change = int(item['invoice_qty'])*(-1)
+        inventory_log = InventoryLog(user=product.user,
+                                     product=product,
+                                     date=datetime.datetime.now(),
+                                     change=change,
+                                     change_type=4,
+                                     associated_invoice=invoice,
+                                     description="Sale - Auto Deduct")
+        inventory_log.save()
+        inventory.current_stock += change
+        inventory.last_log = inventory_log
+        inventory.save()
+
 def update_products_from_invoice(invoice_data_processed, request):
     for item in invoice_data_processed['items']:
-        print("ITEM:", item)
+        new_product = False
         if Product.objects.filter(user=request.user,
                                   product_name=item['invoice_product'],
                                   product_hsn=item['invoice_hsn'],
@@ -108,6 +138,7 @@ def update_products_from_invoice(invoice_data_processed, request):
                                           product_unit=item['invoice_unit'],
                                           product_gst_percentage=item['invoice_gst_percentage'])
         else:
+            new_product = True
             product = Product(user=request.user,
                               product_name=item['invoice_product'],
                               product_hsn=item['invoice_hsn'],
@@ -115,3 +146,6 @@ def update_products_from_invoice(invoice_data_processed, request):
                               product_gst_percentage=item['invoice_gst_percentage'])
         product.product_rate_with_gst = item['invoice_rate_with_gst']
         product.save()
+
+        if new_product:
+            create_inventory(product)
