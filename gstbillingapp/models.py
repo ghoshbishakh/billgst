@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from datetime import datetime
 # Create your models here.
 
 # ========================== Saas Data models ==================================
@@ -68,3 +69,27 @@ class Product(models.Model):
     product_rate_with_gst = models.FloatField()
     def __str__(self):
         return str(self.product_name)
+
+# ========================= Inventory Data models ====================================
+class InventoryLog(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
+    date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    change = models.IntegerField(default=0)
+    CHANGE_TYPES = [
+        (0, 'Other'),
+        (1, 'Purchase'),
+        (2, 'Production'),
+        (4, 'Sales'),
+    ]
+    change_type = models.IntegerField(choices=CHANGE_TYPES, default=0)
+
+    associated_invoice = models.ForeignKey(Invoice, blank=True, null=True, default=None, on_delete=models.SET_NULL)
+    description = models.TextField(max_length=600, blank=True, null=True)
+
+class Inventory(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
+    current_stock = models.IntegerField(default=0)
+    alert_level = models.IntegerField(default=0)
+    last_log = models.ForeignKey(InventoryLog, null=True, blank=True, default=None, on_delete=models.SET_NULL)
