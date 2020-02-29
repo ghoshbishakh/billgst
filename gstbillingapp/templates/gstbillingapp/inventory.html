@@ -11,22 +11,21 @@
 	</div>
 </div>
 
-<table class="table table-bordered" id="inventory-table">
+<table class="table table-hover font-weight-bold" id="inventory-table">
 	<thead>
 		<tr>
 			<th>Product</th>
 			<th>Current Stock</th>
 			<th>Last Transaction</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody class="two-col-form">
 		{% for inventory in inventory_list %}
-		<tr>
-			<td>{{inventory.product.product_name}}</td>
+		<tr onclick="window.location='{% url 'inventory_logs' inventory.id %}';">
+			<td><a href="{% url 'inventory_logs' inventory.id %}">{{inventory.product.product_name}}</a></td>
 			<td>{{inventory.current_stock}}</td>
 			<td>{{inventory.last_log}}</td>
-			<td><a href="{% url 'inventory_logs' inventory.id %}"><button type="button" class="btn btn-primary">Details</button></a></td>
+		</tr>
 		{% endfor %}
 	</tbody>
 </table>

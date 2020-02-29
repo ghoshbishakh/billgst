@@ -111,6 +111,12 @@ input.form-control[type=number] {
 	float: right;
 }
 
+/* Inventory Page */
+#inventory-table tr :hover {
+	cursor: pointer;
+}
+
+
 
 #invoice_profile_data {
 	white-space: pre-line;
