@@ -5,7 +5,7 @@
 <!doctype html>
 
 {% block title %}
-BillGST - The simplest free GST invoicing app.
+BillGST - Simplest GST invoicing | Inventory Management | Book keeping
 {% endblock %}
 
 {% block metatags %}
@@ -18,9 +18,15 @@ BillGST - The simplest free GST invoicing app.
 
 <div class="jumbotron">
 	<h1 class="display-3">BillGST</h1>
-	<h2 class="display-6">The simplest GST invoicing software!</h2>
+	<h2 class="display-6">Simplest <b>GST invoicing</b> app.</h2>
 	<hr class="my-4">
-	<p>Easily create invoices, manage products and customers.</p>
+	<h4>
+	<ul>
+		 <li>Easily create invoices</li>
+		 <li>Manage inventory</li>
+		 <li>Keep books and track balances</li>
+	</ul>
+	</h4>
 	<p class="lead">
 		<a class="btn btn-primary btn-lg" href="{% url 'invoice_create' %}" role="button">Create Invoice</a>
 	</p>
@@ -43,7 +49,7 @@ BillGST - The simplest free GST invoicing app.
 			</div>
 		</div>
 	</div>
-	<div class="col d-flex align-items-stretch">
+<!-- 	<div class="col d-flex align-items-stretch">
 		<div class="card text-white bg-primary mb-3">
 			<div class="card-body">
 			<h4 class="card-title">Printable Invoices</h4>
@@ -59,6 +65,26 @@ BillGST - The simplest free GST invoicing app.
 			</div>
 		</div>
 	</div>
+ -->
+ 	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Manage Books and Balances</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_books.png" %}" alt="Manage books and balances">
+			</div>
+		</div>
+	</div>
+
+	 <div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Easy Inventory Management</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_inventory.png" %}" alt="Manage inventory easily">
+			</div>
+		</div>
+	</div>
+</div>
+
 
 </div>
 
