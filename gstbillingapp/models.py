@@ -63,7 +63,7 @@ class Invoice(models.Model):
 class Product(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     product_name = models.CharField(max_length=200)
-    product_hsn = models.CharField(max_length=50)
+    product_hsn = models.CharField(max_length=50, null=True, blank=True)
     product_unit = models.CharField(max_length=50)
     product_gst_percentage = models.FloatField()
     product_rate_with_gst = models.FloatField()
@@ -100,3 +100,35 @@ class Inventory(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+# ========================= Books Data models ======================================
+
+class Book(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.SET_NULL)
+    current_balance = models.FloatField(default=0)
+    last_log = models.ForeignKey('BookLog', null=True, blank=True, default=None, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.customer.customer_name
+
+
+class BookLog(models.Model):
+    parent_book = models.ForeignKey(Book, null=True, blank=True, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    CHANGE_TYPES = [
+        (0, 'Paid'),
+        (1, 'Purchased Items'),
+        (2, 'Sold Items'),
+        (4, 'Other'),
+    ]
+    change_type = models.IntegerField(choices=CHANGE_TYPES, default=0)
+    change = models.FloatField(default=0.0)
+
+    associated_invoice = models.ForeignKey(Invoice, blank=True, null=True, default=None, on_delete=models.SET_NULL)
+    description = models.TextField(max_length=600, blank=True, null=True)
+
+    def __str__(self):
+        return self.parent_book.customer.customer_name + " | " + str(self.change) + " | " + self.description + " | " + str(self.date)
+

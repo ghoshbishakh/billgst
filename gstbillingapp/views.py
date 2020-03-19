@@ -18,17 +18,23 @@ from .models import Product
 from .models import UserProfile
 from .models import Inventory
 from .models import InventoryLog
+from .models import Book
+from .models import BookLog
+
 
 from .utils import invoice_data_validator
 from .utils import invoice_data_processor
 from .utils import update_products_from_invoice
 from .utils import update_inventory
 from .utils import create_inventory
+from .utils import add_customer_book
+from .utils import auto_deduct_book_from_invoice
 
 from .forms import CustomerForm
 from .forms import ProductForm
 from .forms import UserProfileForm
 from .forms import InventoryLogForm
+from .forms import BookLogForm
 
 # Create your views here.
 @login_required
@@ -84,7 +90,9 @@ def invoice_create(request):
                 customer_address=invoice_data['customer-address'],
                 customer_phone=invoice_data['customer-phone'],
                 customer_gst=invoice_data['customer-gst'])
+            # create customer book
             customer.save()
+            add_customer_book(customer)
 
         # save product
         update_products_from_invoice(invoice_data_processed, request)
@@ -101,6 +109,10 @@ def invoice_create(request):
 
         update_inventory(new_invoice, request)
         print("INVENTORY UPDATED")
+
+        auto_deduct_book_from_invoice(new_invoice)
+        print("CUSTOMER BOOK UPDATED")
+
 
         return redirect('invoice_viewer', invoice_id=new_invoice.id)
 
@@ -185,6 +197,8 @@ def customer_add(request):
         new_customer = customer_form.save(commit=False)
         new_customer.user = request.user
         new_customer.save()
+        # create customer book
+        add_customer_book(new_customer)
         return redirect('customers')
     context = {}
     context['customer_form'] = CustomerForm()
@@ -310,6 +324,63 @@ def inventory_logs_add(request, inventory_id):
 
     
     return render(request, 'gstbillingapp/inventory_logs_add.html', context)
+
+# ===================== Book views =============================
+
+@login_required
+def books(request):
+    context = {}
+    context['book_list'] = Book.objects.filter(user=request.user)
+    return render(request, 'gstbillingapp/books.html', context)
+
+
+@login_required
+def book_logs(request, book_id):
+    context = {}
+    book = get_object_or_404(Book, id=book_id, user=request.user)
+    book_logs = BookLog.objects.filter(parent_book=book).order_by('-id')
+    context['book'] = book
+    context['book_logs'] = book_logs
+    return render(request, 'gstbillingapp/book_logs.html', context)
+
+
+@login_required
+def book_logs_add(request, book_id):
+    context = {}
+    book = get_object_or_404(Book, id=book_id, user=request.user)
+    book_logs = BookLog.objects.filter(parent_book=book)
+    context['book'] = book
+    context['book_logs'] = book_logs
+    context['form'] = BookLogForm()
+
+    if request.method == "POST":
+        book_log_form = BookLogForm(request.POST)
+        invoice_no = request.POST["invoice_no"]
+        invoice = None
+        if invoice_no:
+            try:
+                invoice_no = int(invoice_no)
+                invoice = Invoice.objects.get(user=request.user, invoice_number=invoice_no)
+            except:
+                context['error_message'] = "Incorrect invoice number %s"%(invoice_no,)
+                return render(request, 'gstbillingapp/book_logs_add.html', context)
+                context['form'] = book_log_form
+                return render(request, 'gstbillingapp/book_logs_add.html', context)
+
+
+        book_log = book_log_form.save(commit=False)
+        book_log.parent_book = book
+        if invoice:
+            book_log.associated_invoice = invoice
+        book_log.save()
+
+        book.current_balance = book.current_balance + book_log.change
+        book.last_log = book_log
+        book.save()
+        return redirect('book_logs', book.id)
+
+    return render(request, 'gstbillingapp/book_logs_add.html', context)
+
 
 
 # ================= Static Pages ==============================

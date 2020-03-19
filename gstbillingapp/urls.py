@@ -30,6 +30,10 @@ urlpatterns = [
     path('inventory/<int:inventory_id>', views.inventory_logs, name='inventory_logs'),
     path('inventory/<int:inventory_id>/addupdate', views.inventory_logs_add, name='inventory_logs_add'),
 
+    path('books', views.books, name='books'),
+    path('books/<int:book_id>', views.book_logs, name='book_logs'),
+    path('books/<int:book_id>/addupdate', views.book_logs_add, name='book_logs_add'),
+
 
     path('profile', views.user_profile, name='user_profile'),
     path('profile/edit', views.user_profile_edit, name='user_profile_edit'),

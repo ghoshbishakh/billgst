@@ -116,6 +116,9 @@ input.form-control[type=number] {
 	cursor: pointer;
 }
 
+#book-table tr :hover {
+	cursor: pointer;
+}
 
 
 #invoice_profile_data {

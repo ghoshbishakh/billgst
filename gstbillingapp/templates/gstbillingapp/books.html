@@ -1,0 +1,53 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="row">
+	<div class="col">
+		<h2>Book</h2>
+	</div>
+</div>
+
+<table class="table table-hover font-weight-bold" id="book-table">
+	<thead>
+		<tr>
+			<th>Customer</th>
+			<th>Current Balance</th>
+			<th>Last Transaction</th>
+		</tr>
+	</thead>
+	<tbody class="two-col-form">
+		{% for book in book_list %}
+		<tr onclick="window.location='{% url 'book_logs' book.id %}';">
+			<td><a href="{% url 'book_logs' book.id %}">{{book.customer.customer_name}}</a></td>
+			<td>{{book.current_balance}}</td>
+			<td>{{book.last_log}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}
+
+
+{% block includejs %}
+<script type="text/javascript">
+
+$(document).ready( function () {
+	$('#book-table').DataTable({
+		"order": [],
+		"columnDefs": [ {
+			"targets": 3,
+			"sortable": false,
+			"searchable": false
+		} ],
+		"paging": true
+	});
+});
+
+</script>
+{% endblock %}
