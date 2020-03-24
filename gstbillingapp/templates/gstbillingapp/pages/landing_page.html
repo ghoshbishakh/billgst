@@ -1,4 +1,4 @@
-{% extends "gstbillingapp/pages/base.html" %}
+{% extends "gstbillingapp/base.html" %}
 
 
 {% load static %}
@@ -9,9 +9,13 @@ BillGST - Simplest GST invoicing | Inventory Management | Book keeping
 {% endblock %}
 
 {% block metatags %}
-<meta name="description" content="Create GST invoice/bills for free. Easy interface with product and customer management. Print or save invoices as PDF.">
+<meta name="description" content="Create GST invoice/bills for free. Automatic inventory Management and Books management.">
 <meta name="google-site-verification" content="MJbX1a9Fs1MIE1tnpRnp4At9OzVMxoumTAvOWUlG8-w" />
 <link rel="canonical" href="https://billgst.in/" />
+
+<meta property="og:title" content="BillGST - Simplest GST invoicing | Inventory Management | Book keeping" />
+<meta property="og:url" content="https://billgst.in" />
+<meta property="og:image" content="https://billgst.in{% static "gstbillingapp/images/screenshot_interface.png" %}" />
 {% endblock %}
 
 {% block content %}
