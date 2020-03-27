@@ -5,10 +5,14 @@
 
 
 {% block content %}
+<h2>Update Book</h2>
 
-<div class="col">
-	<h2>Update Book</h2>
-	<h3>Customer: {{book.customer.customer_name}}</h3>
+<hr>
+<div class="row">
+	<div class="col">
+		<h3>Customer: {{book.customer.customer_name}}</h3>
+		<h3>Current Balance: {{book.current_balance}}</h3>
+	</div>
 </div>
 
 

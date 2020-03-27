@@ -5,16 +5,18 @@
 
 
 {% block content %}
+<h2>Book Details</h2>
+<hr>
 <div class="row">
 	<div class="col">
-		<h2>Book Details</h2>
 		<h3>Customer: {{book.customer.customer_name}}</h3>
+		<h3>Current Balance: {{book.current_balance}}</h3>
 	</div>
 	<div class="col">
 		<a href="{% url 'book_logs_add' book.id %}" id="add_customer_btn"><button type="button" class="btn btn-primary">Add Update</button></a>
 	</div>
 </div>
-
+<hr>
 <table class="table table-hover font-weight-bold" id="inventory-logs-table">
 	<thead>
 		<tr>
