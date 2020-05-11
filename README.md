@@ -24,7 +24,7 @@ python manage.py runserver
 ![clean interface](https://github.com/ghoshbishakh/billgst/blob/master/gstbillingapp/static/gstbillingapp/images/screenshot_interface.png)
 
 ## Seamlessly add search products and customers
-![seamless search](https://github.com/ghoshbishakh/billgst/blob/master/gstbillingapp/static/gstbillingapp/images.screenshot_search.png)
+![seamless search](https://github.com/ghoshbishakh/billgst/blob/master/gstbillingapp/static/gstbillingapp/images/screenshot_search.png)
 
 ## Inventory Management
 ![inventory management](https://github.com/ghoshbishakh/billgst/blob/master/gstbillingapp/static/gstbillingapp/images/screenshot_inventory.png)
