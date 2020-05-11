@@ -1,0 +1,98 @@
+{% extends "gstbillingapp/base.html" %}
+
+
+{% load static %}
+<!doctype html>
+
+{% block title %}
+BillGST - Simplest GST invoicing | Inventory Management | Book keeping
+{% endblock %}
+
+{% block metatags %}
+<meta name="description" content="Create GST invoice/bills for free. Automatic inventory Management and Books management.">
+<meta name="google-site-verification" content="MJbX1a9Fs1MIE1tnpRnp4At9OzVMxoumTAvOWUlG8-w" />
+<link rel="canonical" href="https://billgst.in/" />
+
+<meta property="og:title" content="BillGST - Simplest GST invoicing | Inventory Management | Book keeping" />
+<meta property="og:url" content="https://billgst.in" />
+<meta property="og:image" content="https://billgst.in{% static "gstbillingapp/images/screenshot_interface.png" %}" />
+{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+	<h1 class="display-3">BillGST</h1>
+	<h2 class="display-6">Simplest <b>GST invoicing</b> app.</h2>
+	<hr class="my-4">
+	<h4>
+	<ul>
+		 <li>Easily create invoices</li>
+		 <li>Manage inventory</li>
+		 <li>Keep books and track balances</li>
+	</ul>
+	</h4>
+	<p class="lead">
+		<a class="btn btn-primary btn-lg" href="{% url 'invoice_create' %}" role="button">Create Invoice</a>
+	</p>
+</div>
+
+<div class="row">
+	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Simple Interface</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_interface.png" %}" alt="Simple Interface">
+			</div>
+		</div>
+	</div>
+	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Customer and Product Search</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_search.png" %}" alt="Customer and Product Search">
+			</div>
+		</div>
+	</div>
+<!-- 	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Printable Invoices</h4>
+			<ul>
+				<li><h5>Clean Invoice Format</h5></li>
+			</ul>
+			<ul>
+				<li><h5>Print Invoices directly with one click.</h5></li>
+			</ul>
+			<ul>
+				<li><h5>Save Invoices as PDF</h5></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+ -->
+ 	<div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Manage Books and Balances</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_books.png" %}" alt="Manage books and balances">
+			</div>
+		</div>
+	</div>
+
+	 <div class="col d-flex align-items-stretch">
+		<div class="card text-white bg-primary mb-3">
+			<div class="card-body">
+			<h4 class="card-title">Easy Inventory Management</h4>
+			<img class="img-fluid" src="{% static "gstbillingapp/images/screenshot_inventory.png" %}" alt="Manage inventory easily">
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+{% endblock %}
+
+
+

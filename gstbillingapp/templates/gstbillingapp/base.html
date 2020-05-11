@@ -12,6 +12,9 @@
 		{% endblock %}
 	</title>
 
+	{% block metatags %}
+	{% endblock %}
+
 
 
 	<!-- Bootstrap CSS -->
@@ -32,33 +35,19 @@
 	<div class="container">
 		<!-- Content here -->
 
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" href="{% url 'index' %}">GST Billing</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+		{% include "gstbillingapp/navbar.html" %}
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'index' %}">New Invoice <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'invoices' %}">Invoices</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'customers' %}">Customers</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'products' %}">Products</a>
-					</li>
+		{% if error_message %}
+		<div class="alert alert-danger" role="alert">
+			{{error_message}}
+		</div>
+		{% endif %}
 
-				</ul>
-			</div>
-
-
-		</nav>
-
+		{% if success_message %}
+		<div class="alert alert-success" role="alert">
+			{{success_message}}
+		</div>
+		{% endif %}
 
 		{% block content %}
 		CONTENT BLOCK
@@ -84,6 +73,20 @@
 
 	{% block includejs %}
 	{% endblock %}
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-159304253-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-159304253-1');
+</script>
+
+
 
 </body>
 

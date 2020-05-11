@@ -68,6 +68,7 @@ function update_invoice_totals() {
 // AUTO CALCULATE ITEM AMOUNTS =============================================
 
 function initialize_auto_calculation(){
+    update_amounts($('#invoice-form-items-table-body input[name=invoice-qty]:first'));
     $('input[name=invoice-qty], input[name=invoice-gst-percentage], input[name=invoice-rate-with-gst]').change(function (){
         update_amounts($(this));
     });

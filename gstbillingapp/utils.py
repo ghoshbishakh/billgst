@@ -1,5 +1,11 @@
 import datetime
+import json
+
 from .models import Product
+from .models import Inventory
+from .models import InventoryLog
+from .models import Book
+from .models import BookLog
 
 
 def invoice_data_validator(invoice_data):
@@ -93,22 +99,87 @@ def invoice_data_processor(invoice_post_data):
     print(processed_invoice_data)
     return processed_invoice_data
 
-
-def update_products_from_invoice(invoice_data_processed):
+def update_products_from_invoice(invoice_data_processed, request):
     for item in invoice_data_processed['items']:
-        print("ITEM:", item)
-        if Product.objects.filter(product_name=item['invoice_product'],
+        new_product = False
+        if Product.objects.filter(user=request.user,
+                                  product_name=item['invoice_product'],
                                   product_hsn=item['invoice_hsn'],
                                   product_unit=item['invoice_unit'],
                                   product_gst_percentage=item['invoice_gst_percentage']).exists():
-            product = Product.objects.get(product_name=item['invoice_product'],
+            product = Product.objects.get(user=request.user,
+                                          product_name=item['invoice_product'],
                                           product_hsn=item['invoice_hsn'],
                                           product_unit=item['invoice_unit'],
                                           product_gst_percentage=item['invoice_gst_percentage'])
         else:
-            product = Product(product_name=item['invoice_product'],
+            new_product = True
+            product = Product(user=request.user,
+                              product_name=item['invoice_product'],
                               product_hsn=item['invoice_hsn'],
                               product_unit=item['invoice_unit'],
                               product_gst_percentage=item['invoice_gst_percentage'])
         product.product_rate_with_gst = item['invoice_rate_with_gst']
         product.save()
+
+        if new_product:
+            create_inventory(product)
+
+#  ================== Inventory methods ====================
+
+def create_inventory(product):
+    if not Inventory.objects.filter(user=product.user, product=product).exists():
+        new_inventory = Inventory(user=product.user, product=product)
+        new_inventory.save()
+
+def update_inventory(invoice, request):
+    invoice_data =  json.loads(invoice.invoice_json)
+    for item in invoice_data['items']:
+        product = Product.objects.get(user=request.user,
+                                      product_name=item['invoice_product'],
+                                      product_hsn=item['invoice_hsn'],
+                                      product_unit=item['invoice_unit'],
+                                      product_gst_percentage=item['invoice_gst_percentage'])
+        inventory = Inventory.objects.get(user=product.user, product=product)
+        change = int(item['invoice_qty'])*(-1)
+        inventory_log = InventoryLog(user=product.user,
+                                     product=product,
+                                     date=datetime.datetime.now(),
+                                     change=change,
+                                     change_type=4,
+                                     associated_invoice=invoice,
+                                     description="Sale - Auto Deduct")
+        inventory_log.save()
+        inventory.current_stock += change
+        inventory.last_log = inventory_log
+        inventory.save()
+
+
+# ================ Book methods ===========================
+
+def add_customer_book(customer):
+    # check if customer already exists
+    if Book.objects.filter(user=customer.user, customer=customer).exists():
+        return
+    book = Book(user=customer.user,
+                customer=customer)
+    book.save()
+
+
+def auto_deduct_book_from_invoice(invoice):
+    invoice_data =  json.loads(invoice.invoice_json)
+
+    book = Book.objects.get(user=invoice.user, customer=invoice.invoice_customer)
+
+    book_log = BookLog(parent_book=book,
+                       date=invoice.invoice_date,
+                       change_type=1,
+                       change=(-1.0)*float(invoice_data['invoice_total_amt_with_gst']),
+                       associated_invoice=invoice,
+                       description="Purchase - Auto Deduct")
+
+    book_log.save()
+
+    book.current_balance = book.current_balance + book_log.change
+    book.last_log = book_log
+    book.save()

@@ -1,0 +1,58 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+<h2>Inventory Details</h2>
+<hr>
+
+<div class="row">
+	<div class="col">
+		<h3>Product: {{inventory.product}}</h3>
+		<h3>Current Stock: {{inventory.current_stock}}</h3>
+	</div>
+	<div class="col">
+		<a href="{% url 'inventory_logs_add' inventory.id %}" id="add_customer_btn"><button type="button" class="btn btn-primary">Add Update</button></a>
+	</div>
+</div>
+
+<hr>
+
+<table class="table table-hover font-weight-bold" id="inventory-logs-table">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Change</th>
+		</tr>
+	</thead>
+	<tbody class="two-col-form">
+		{% for item in inventory_logs %}
+		<tr class="{% if item.change < 0 %}table-danger{% else %}table-success{%endif%}">
+			<td>{{item.date}}</td>
+			<td>{{item.get_change_type_display}} {% if item.associated_invoice %}<a href="{% url 'invoice_viewer' item.associated_invoice.id %}">[INVOICE]</a>{% endif %}</td>
+			<td>{{item.description}}</td>
+			<td class="text-right">{{item.change}} &emsp; {{inventory.product.product_unit}}</td>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+
+{% endblock %}
+
+
+{% block includejs %}
+<script type="text/javascript">
+$(document).ready( function () {
+	$('#inventory-logs-table').DataTable({
+		"order": [],
+		"paging": true,
+	});
+});
+
+</script>
+{% endblock %}

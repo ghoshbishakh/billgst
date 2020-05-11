@@ -5,30 +5,35 @@
 
 
 {% block content %}
-		<h2>Edit Product</h2>
 
-		<form method="POST">
-			{% csrf_token %}
-			<div class="form-group">
-				<label>Product Name:</label>
-				{{product_form.product_name}}
-			</div>
-			<div class="form-group">
-				<label>HSN:</label>
-				{{product_form.product_hsn}}
-			</div>
-			<div class="form-group">
-				<label>Product Unit:</label>
-				{{product_form.product_unit}}
-			</div>
-			<div class="form-group">
-				<label>GST %:</label>
-				{{product_form.product_gst_percentage}}
-			</div>
-			<div class="form-group">
-				<label>Rate with GST:</label>
-				{{product_form.product_rate_with_gst}}
-			</div>
-			<input type="submit" value="Submit">
-		</form>
+<h2>Edit Product</h2>
+<form method="POST">
+	{% csrf_token %}
+	<table class="table">
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row" class="text-right">Product Name:</th>
+				<td class="form-input-td customer_search_area">{{product_form.product_name}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">HSN:</th>
+				<td class="form-input-td customer_search_area">{{product_form.product_hsn}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Product Unit:</th>
+				<td class="form-input-td customer_search_area">{{product_form.product_unit}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">GST %:</th>
+				<td class="form-input-td customer_search_area">{{product_form.product_gst_percentage}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Rate with GST:</th>
+				<td class="form-input-td customer_search_area">{{product_form.product_rate_with_gst}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<input type="submit" class="btn btn-primary float-right" value="Submit">
+</form>
 {% endblock %}

@@ -1,0 +1,40 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+<h2>Edit Profile</h2>
+<form method="POST">
+	{% csrf_token %}
+	<table class="table">
+		<tbody class="two-col-form">
+			<tr>
+				<th scope="row" class="text-right">Business Name:</th>
+				<td class="form-input-td customer_search_area">{{user_profile_form.business_title}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Address:</th>
+				<td class="form-input-td">{{user_profile_form.business_address}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Email:</th>
+				<td class="form-input-td">{{user_profile_form.business_email}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">Phone:</th>
+				<td class="form-input-td">{{user_profile_form.business_phone}}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="text-right">GST:</th>
+				<td class="form-input-td" pattern="([A-Za-z0-9]{15})|(^$)">{{user_profile_form.business_gst}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<input type="submit" class="btn btn-primary float-right" value="Submit">
+</form>
+
+{% endblock %}

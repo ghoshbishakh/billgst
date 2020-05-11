@@ -1,0 +1,53 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="row">
+	<div class="col">
+		<h2>Inventory</h2>
+	</div>
+</div>
+
+<table class="table table-hover font-weight-bold" id="inventory-table">
+	<thead>
+		<tr>
+			<th>Product</th>
+			<th>Current Stock</th>
+			<th>Last Transaction</th>
+		</tr>
+	</thead>
+	<tbody class="two-col-form">
+		{% for inventory in inventory_list %}
+		<tr onclick="window.location='{% url 'inventory_logs' inventory.id %}';">
+			<td><a href="{% url 'inventory_logs' inventory.id %}">{{inventory.product.product_name}}</a></td>
+			<td>{{inventory.current_stock}}</td>
+			<td>{{inventory.last_log}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}
+
+
+{% block includejs %}
+<script type="text/javascript">
+
+$(document).ready( function () {
+	$('#inventory-table').DataTable({
+		"order": [],
+		"columnDefs": [ {
+			"targets": 3,
+			"sortable": false,
+			"searchable": false
+		} ],
+		"paging": true
+	});
+});
+
+</script>
+{% endblock %}
