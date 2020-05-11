@@ -9,6 +9,9 @@
 
 ## Getting Started
 
+![screenshot](https://github.com/ghoshbishakh/billgst/blob/master/gstbillingapp/static/gstbillingapp/images/screenshot.png)
+
+
 1. Clone the repository
 2. Change `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY` and `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET` in `gstbilling/settings.py`
 3.
