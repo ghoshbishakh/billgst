@@ -16,8 +16,29 @@
 			<!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
 			<a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-primary">Login with Google</a>
 		</div>
+		<div>OR</div>
+		<form method="POST">
+			{% csrf_token %}
+			<table class="table">
+				<tbody class="two-col-form">
+					<tr>
+						<th scope="row" class="text-right">Username:</th>
+						<td class="form-input-td">{{auth_form.username}}</td>
+					</tr>`
+					<tr>
+						<th scope="row" class="text-right">Password:</th>
+						<td class="form-input-td">{{auth_form.password}}</td>
+					</tr>
+				</tbody>
+			</table>
+		
+			<input type="submit" class="btn btn-primary float-right" value="Submit">
+		</form>
+
+		
 	</div>
-</div>
+		<a href="{% url 'signup_view' %}"><input class="btn btn-danger float-right" value="Sign Up"></a>
+	</div>
 <div class="col-sm">
 </div>
 </div>

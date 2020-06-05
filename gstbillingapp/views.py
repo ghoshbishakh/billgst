@@ -10,7 +10,8 @@ from django.http import JsonResponse
 from django.db.models import Max
 
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from .models import Customer
 from .models import Invoice
@@ -37,6 +38,85 @@ from .forms import InventoryLogForm
 from .forms import BookLogForm
 
 # Create your views here.
+
+
+# User Management =====================================
+
+@login_required
+def user_profile_edit(request):
+    context = {}
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    context['user_profile_form'] = UserProfileForm(instance=user_profile)
+    
+    if request.method == "POST":
+        user_profile_form = UserProfileForm(request.POST, instance=user_profile)
+        user_profile_form.save()
+        return redirect('user_profile')
+    return render(request, 'gstbillingapp/user_profile_edit.html', context)
+
+
+@login_required
+def user_profile(request):
+    context = {}
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    context['user_profile'] = user_profile
+    return render(request, 'gstbillingapp/user_profile.html', context)
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("invoice_create")
+    context = {}
+    auth_form = AuthenticationForm(request)
+    if request.method == "POST":
+        auth_form = AuthenticationForm(request, data=request.POST)
+        if auth_form.is_valid():
+            user = auth_form.get_user()
+            if user:
+                login(request, user)
+                return redirect("invoice_create")
+        else:
+            context["error_message"] = auth_form.get_invalid_login_error()
+    context["auth_form"] = auth_form
+    return render(request, 'gstbillingapp/login.html', context)
+
+
+def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect("invoice_create")
+    context = {}
+    signup_form = UserCreationForm()
+    profile_edit_form = UserProfileForm()
+    context["signup_form"] = signup_form
+    context["profile_edit_form"] = profile_edit_form
+
+    
+    if request.method == "POST":
+        signup_form = UserCreationForm(request.POST)
+        profile_edit_form = UserProfileForm(request.POST)
+        context["signup_form"] = signup_form
+        context["profile_edit_form"] = profile_edit_form
+
+        if signup_form.is_valid():
+            user = signup_form.save()
+        else:
+            context["error_message"] = signup_form.errors
+            return render(request, 'gstbillingapp/signup.html', context)
+        if profile_edit_form.is_valid():
+            userprofile = profile_edit_form.save(commit=False)
+            userprofile.user = user
+            userprofile.save()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect("invoice_create")
+
+
+
+    return render(request, 'gstbillingapp/signup.html', context)
+
+
+
+# Invoice, products and customers ===============================================
+
 @login_required
 def invoice_create(request):
     # if business info is blank redirect to update it
@@ -242,31 +322,6 @@ def product_delete(request):
         product_obj.delete()
     return redirect('products')
 
-
-@login_required
-def user_profile_edit(request):
-    context = {}
-    user_profile = get_object_or_404(UserProfile, user=request.user)
-    context['user_profile_form'] = UserProfileForm(instance=user_profile)
-    
-    if request.method == "POST":
-        user_profile_form = UserProfileForm(request.POST, instance=user_profile)
-        user_profile_form.save()
-        return redirect('user_profile')
-    return render(request, 'gstbillingapp/user_profile_edit.html', context)
-
-
-@login_required
-def user_profile(request):
-    context = {}
-    user_profile = get_object_or_404(UserProfile, user=request.user)
-    context['user_profile'] = user_profile
-    return render(request, 'gstbillingapp/user_profile.html', context)
-
-
-def login_view(request):
-    context = {}
-    return render(request, 'gstbillingapp/login.html', context)
 
 
 # ================= Inventory Views ===========================
