@@ -6,16 +6,16 @@
 	<div class="card">
 		<div class="card-header">
 			<div class="row">
-			<div class="col-sm-6"><strong>Invoice Date: {{invoice.invoice_date}}</strong></div> 
-			<div class="col-sm-6 text-right"><strong>Invoice No:{{invoice.invoice_number}}</strong></div>
+			<div class="col-sm-6 col-6"><strong>Invoice Date: {{invoice.invoice_date}}</strong></div> 
+			<div class="col-sm-6 text-right col-6"><strong>Invoice No:{{invoice.invoice_number}}</strong></div>
 			</div>
 		</div>
 
 		<div class="card-body">
-			<div class="row mb-4">
+			<div class="row">
 
 
-				<div class="col-sm-6">
+				<div class="col-sm-6 col-md-6 col-lg-6 col-6">
 					<div>
 						<strong>{{user_profile.business_title}}</strong>
 					</div>
@@ -33,7 +33,7 @@
 
 
 
-				<div class="col-sm-6">
+				<div class="col-sm-6 col-md-6 col-lg-6 col-6">
 					<h6 class="mb-3">Billed To:</h6>
 					<div>
 						<strong>{{ invoice_data.customer_name }}</strong>
