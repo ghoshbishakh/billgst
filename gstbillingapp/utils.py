@@ -83,6 +83,8 @@ def invoice_data_processor(invoice_post_data):
             item_entry['invoice_hsn'] = invoice_post_data['invoice-hsn'][idx]
             item_entry['invoice_unit'] = invoice_post_data['invoice-unit'][idx]
             item_entry['invoice_qty'] = int(invoice_post_data['invoice-qty'][idx])
+            item_entry['invoice_qty_carton'] = int(invoice_post_data['invoice-qty-carton'][idx])
+            item_entry['invoice_carton_size'] = int(invoice_post_data['invoice-carton-size'][idx])
             item_entry['invoice_rate_with_gst'] = float(invoice_post_data['invoice-rate-with-gst'][idx])
             item_entry['invoice_gst_percentage'] = float(invoice_post_data['invoice-gst-percentage'][idx])
 
@@ -120,6 +122,7 @@ def update_products_from_invoice(invoice_data_processed, request):
                               product_unit=item['invoice_unit'],
                               product_gst_percentage=item['invoice_gst_percentage'])
         product.product_rate_with_gst = item['invoice_rate_with_gst']
+        product.product_carton_size = item['invoice_carton_size']
         product.save()
 
         if new_product:

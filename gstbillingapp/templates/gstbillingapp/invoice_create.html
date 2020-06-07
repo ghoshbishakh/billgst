@@ -73,17 +73,21 @@
 
 	<table class="table table-bordered" id="invoice-form-items-table">
 		<thead>
-			<th class="table-active" scope="col" colspan="13">Items</th>
+			<th class="table-active" scope="col" colspan="14">Items</th>
 
 			<tr>
 				<th scope="col">Sl No.</th>
 				<th scope="col">Product</th>
 				<th scope="col">HSN / SAC</th>
-				<th scope="col">Unit</th>
-				<th scope="col">Qty</th>
-				<th scope="col">Rate with GST</th>
+				<!-- <th scope="col">Unit</th> -->
+				<th scope="col">Carton Size</th>
+				<th scope="col">Qty in Carton</th>
+				<th scope="col">Qty in Jar</th>
+				<th scope="col">Rate with GST / Jar</th>
+				<!-- <th scope="col">Rate with GST / Carton</th> -->
 				<th scope="col">GST %</th>
-				<th scope="col">Rate without GST</th>
+				<th scope="col">Rate without GST / Jar</th>
+				<!-- <th scope="col">Rate without GST / Carton</th> -->
 
 
 				<th scope="col">Amt without GST</th>
@@ -99,13 +103,17 @@
 				<td class="invoice-item-slno">1</td>
 				<td class="form-input-td"><input name="invoice-product" type="text" class="form-control product_search_area product_search_input" placeholder="Product"></td>
 				<td class="form-input-td"><input name="invoice-hsn" type="text" class="form-control" placeholder="HSN"></td>
-				<td class="form-input-td"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit"></td>
-				<td class="form-input-td"><input name="invoice-qty" type="number" class="form-control" placeholder="Qty"></td>
-				<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate with GST"></td>
+				<td class="form-input-td d-none"><input name="invoice-unit" type="text" class="form-control" placeholder="Unit" value="Carton" readonly></td>
+				<td class="form-input-td"><input name="invoice-carton-size" type="number" class="form-control" placeholder="Carton Size"></td>
+				<td class="form-input-td"><input name="invoice-qty-carton" type="number" class="form-control" placeholder="Carton Qty"></td>
+				<td class="form-input-td"><input name="invoice-qty" type="number" class="form-control" placeholder="Jar Qty" readonly></td>
+				<td class="form-input-td"><input name="invoice-rate-with-gst" type="number" class="form-control" placeholder="Rate with GST / JAR"></td>
+				<!-- <td class="form-input-td"><input name="invoice-rate-with-gst-carton" type="number" class="form-control" placeholder="Rate with GST / Carton"></td> -->
 				<td class="form-input-td"><input name="invoice-gst-percentage" type="number" class="form-control" placeholder="GST %"></td>
 
 
-				<td class="form-input-td"><input name="invoice-rate-without-gst" type="number" class="form-control" placeholder="Rate without GST" readonly></td>
+				<td class="form-input-td"><input name="invoice-rate-without-gst" type="number" class="form-control" placeholder="Rate without GST / Jar" readonly></td>
+				<!-- <td class="form-input-td"><input name="invoice-rate-without-gst-carton" type="number" class="form-control" placeholder="Rate without GST / Carton" readonly></td> -->
 				<td class="form-input-td"><input name="invoice-amt-without-gst" type="number" class="form-control" readonly></td>
 				<td class="form-input-td"><input name="invoice-amt-sgst" type="number" class="form-control" readonly></td>
 				<td class="form-input-td"><input name="invoice-amt-cgst" type="number" class="form-control" readonly></td>
@@ -115,7 +123,7 @@
 		</tbody>
 
 		<tr>
-			<td colspan="8" class="text-right"><strong>TOTAL:</strong></td>
+			<td colspan="9" class="text-right"><strong>TOTAL:</strong></td>
 			<td class="form-input-td"><input name="invoice-total-amt-without-gst" type="number" class="form-control" readonly></td>
 			<td class="form-input-td"><input name="invoice-total-amt-sgst" type="number" class="form-control" readonly></td>
 			<td class="form-input-td"><input name="invoice-total-amt-cgst" type="number" class="form-control" readonly></td>

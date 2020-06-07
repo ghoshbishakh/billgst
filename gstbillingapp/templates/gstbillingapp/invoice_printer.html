@@ -57,9 +57,11 @@
 							<th class="text-center">#</th>
 							<th class="text-left">Item</th>
 							<th class="text-center">HSN / SAC</th>
-							<th class="text-center">Unit</th>
-							<th class="text-right">Qty</th>
-							<th class="text-right">Rate ({{ currency }})</th>
+							<!-- <th class="text-center">Unit</th> -->
+							<th class="text-right">Carton Size</th>
+							<th class="text-right">Qty Carton</th>
+							<th class="text-right">Qty Jar</th>
+							<th class="text-right">Rate / Jar({{ currency }})</th>
 							<th class="text-right">Taxable Amount ({{ currency }})</th>
 							<th class="text-right">GST (%)</th>
 							{% if invoice_data.igstcheck %}
@@ -78,7 +80,9 @@
 							<td class="text-center">{{ forloop.counter }}</td>
 							<td class="text-left strong">{{ item.invoice_product }}</td>
 							<td class="text-center">{{ item.invoice_hsn }}</td>
-							<td class="text-center">{{ item.invoice_unit }}</td>
+							<!-- <td class="text-center">{{ item.invoice_unit }}</td> -->
+							<td class="text-right">{{ item.invoice_carton_size }}</td>
+							<td class="text-right">{{ item.invoice_qty_carton }}</td>
 							<td class="text-right">{{ item.invoice_qty }}</td>
 							<td class="text-right">{{ item.invoice_rate_without_gst|floatformat:2 }}</td>
 							<td class="text-right">{{ item.invoice_amt_without_gst|floatformat:2 }}</td>
@@ -95,12 +99,12 @@
 
 						<tr id="table-invoice-total-row">
 							{% if invoice_data.igstcheck %}
-								<td class="text-right" colspan="6">Total: </td>
+								<td class="text-right" colspan="7">Total: </td>
 								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
 								<td class="text-right"></td>
 								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_igst|floatformat:2 }}</td>
 							{% else %}
-								<td class="text-right" colspan="6">Total: </td>
+								<td class="text-right" colspan="7">Total: </td>
 								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
 								<td class="text-right"></td>
 								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_cgst|floatformat:2 }}</td>

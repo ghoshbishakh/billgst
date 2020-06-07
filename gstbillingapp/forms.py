@@ -15,7 +15,7 @@ class CustomerForm(ModelForm):
 class ProductForm(ModelForm):
      class Meta:
          model = Product
-         fields = ['product_name', 'product_hsn', 'product_unit', 'product_gst_percentage', 'product_rate_with_gst']
+         fields = ['product_name', 'product_hsn', 'product_unit', 'product_gst_percentage', 'product_rate_with_gst', 'product_carton_size']
 
 
 class UserProfileForm(ModelForm):

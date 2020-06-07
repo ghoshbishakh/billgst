@@ -67,6 +67,7 @@ class Product(models.Model):
     product_unit = models.CharField(max_length=50)
     product_gst_percentage = models.FloatField()
     product_rate_with_gst = models.FloatField()
+    product_carton_size = models.IntegerField(null=True, blank=True, default=1)
     def __str__(self):
         return str(self.product_name)
 

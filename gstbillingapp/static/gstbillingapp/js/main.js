@@ -8,6 +8,7 @@ function add_invoice_item_row() {
 
     $('#invoice-form-items-table-body >tr:last').clone(true).insertAfter('#invoice-form-items-table-body >tr:last');
     $('#invoice-form-items-table-body >tr:last input').val('');
+    $('#invoice-form-items-table-body input[name=invoice-unit]').val('Carton');
 
     $('#invoice-form-items-table-body >tr:last td')[0].innerHTML = invoice_item_row_counter
     update_amounts($('#invoice-form-items-table-body input[name=invoice-qty]:last'));
@@ -69,15 +70,23 @@ function update_invoice_totals() {
 
 function initialize_auto_calculation(){
     update_amounts($('#invoice-form-items-table-body input[name=invoice-qty]:first'));
-    $('input[name=invoice-qty], input[name=invoice-gst-percentage], input[name=invoice-rate-with-gst]').change(function (){
+    $('input[name=invoice-qty], input[name=invoice-qty-carton], input[name=invoice-carton-size], input[name=invoice-gst-percentage], input[name=invoice-rate-with-gst]').change(function (){
         update_amounts($(this));
     });
 }
 
 function update_amounts(element){
     var product = element.parent().parent().find('input[name=invoice-product]').val();
-    var qty = parseInt(element.parent().parent().find('input[name=invoice-qty]').val());
+
+    var carton_size = parseInt(element.parent().parent().find('input[name=invoice-carton-size]').val());
+
+    var qty_carton = parseInt(element.parent().parent().find('input[name=invoice-qty-carton]').val());
+    
+    // var qty = parseInt(element.parent().parent().find('input[name=invoice-qty]').val());
+    var qty = qty_carton * carton_size;
+
     var rate_with_gst = parseFloat(element.parent().parent().find('input[name=invoice-rate-with-gst]').val());
+
     var gst_percentage = parseFloat(element.parent().parent().find('input[name=invoice-gst-percentage]').val());
 
     var rate_without_gst = (rate_with_gst * 100.0) / (100.0 + gst_percentage);
@@ -113,6 +122,7 @@ function update_amounts(element){
     element.parent().parent().find('input[name=invoice-amt-cgst]').val(cgst.toFixed(2));
     element.parent().parent().find('input[name=invoice-amt-igst]').val(igst.toFixed(2));
     element.parent().parent().find('input[name=invoice-amt-with-gst]').val(amt_with_gst.toFixed(2));
+    element.parent().parent().find('input[name=invoice-qty]').val(carton_size * qty_carton);
 
     update_invoice_totals();
 
@@ -206,7 +216,7 @@ var selected_item_input;
 function product_result_to_domstr(result) {
     var domstr = "<div class='product-search-result' data-product='" + JSON.stringify(result) + "'>"+
     "<div>"+ result['product_name'] + "</div>" +
-    "<div>"+ result['product_hsn'] + " | " + result['product_unit'] + " | " + result['product_gst_percentage'] +
+    "<div>"+ result['product_hsn'] + " | Carton = " + result['product_carton_size'] + " Jar | " + result['product_gst_percentage'] +
     "</div>";
      return domstr;
 }
@@ -217,6 +227,7 @@ function product_result_click() {
     selected_item_input.val(product_data_json['product_name']);
     selected_item_input.parent().parent().find('input[name=invoice-hsn]').val(product_data_json['product_hsn']);    
     selected_item_input.parent().parent().find('input[name=invoice-unit]').val(product_data_json['product_unit']);    
+    selected_item_input.parent().parent().find('input[name=invoice-carton-size]').val(product_data_json['product_carton_size']);    
     selected_item_input.parent().parent().find('input[name=invoice-rate-with-gst]').val(product_data_json['product_rate_with_gst']);    
     selected_item_input.parent().parent().find('input[name=invoice-gst-percentage]').val(product_data_json['product_gst_percentage']);    
 
