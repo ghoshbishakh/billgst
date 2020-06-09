@@ -1,5 +1,5 @@
 {% extends "gstbillingapp/print_base.html" %}
-
+{% load static %}
 
 {% block content %}
 
@@ -15,9 +15,25 @@
 			<div class="row">
 
 				<div class="col-sm-12 col-md-12 col-lg-12 col-12">
-                                [] Original for Receipient  [] Transporter Copy  [] Supplier Copy
-	 			<hr>
-                                </div>
+					<img src="{% static "gstbillingapp/images/bellzz.png" %}" class="img-fluid" width="100em"></img>
+					<hr/>
+				</div>
+				
+				<div class="col-sm-4 col-md-4 col-lg-4 col-4">
+				[ ] Original for Receipient
+				</div>
+				<div class="col-sm-4 col-md-4 col-lg-4 col-4">
+				[ ] Transporter Copy
+				</div>
+				<div class="col-sm-4 col-md-4 col-lg-4 col-4">
+				[ ] Supplier Copy
+				</div>
+		
+
+				
+				<div class="col-sm-12 col-md-12 col-lg-12 col-12">
+					<hr/>
+				</div>
 
 				<div class="col-sm-6 col-md-6 col-lg-6 col-6">
 					<div>
@@ -124,11 +140,11 @@
 			<div class="row">
 
 
-				<div class="col-sm-6 col-lg-6 col-md-6">
+				<div class="col-sm-6 col-lg-6 col-md-6 col-6">
 					
 				</div>
 
-				<div class="col-sm-6 col-lg-6 col-md-6">
+				<div class="col-sm-6 col-lg-6 col-md-6 col-6">
 					<table class="table text-right" id="invoice-grand-total-table">
 						<tr>
 							<td>Total Taxable Amount: </td>
