@@ -144,7 +144,7 @@ def update_inventory(invoice, request):
                                       product_unit=item['invoice_unit'],
                                       product_gst_percentage=item['invoice_gst_percentage'])
         inventory = Inventory.objects.get(user=product.user, product=product)
-        change = int(item['invoice_qty'])*(-1)
+        change = int(item['invoice_qty_carton'])*(-1)
         inventory_log = InventoryLog(user=product.user,
                                      product=product,
                                      date=datetime.datetime.now(),
