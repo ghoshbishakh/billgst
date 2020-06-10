@@ -56,8 +56,6 @@ class Invoice(models.Model):
         null=True
     )
     invoice_json = models.TextField()
-    inventory_reflected = models.BooleanField(default=True)
-    books_reflected = models.BooleanField(default=True)
     def __str__(self):
         return str(self.invoice_number) + " | " + str(self.invoice_date)
 
