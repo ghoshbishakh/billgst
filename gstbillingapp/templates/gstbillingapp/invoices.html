@@ -16,6 +16,7 @@
 				<th>Date</th>
 				<th>Customer</th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody class="two-col-form">
@@ -25,18 +26,58 @@
  				<td>{{invoice.invoice_number}}</td>
  				<td>{{invoice.invoice_date}}</td>
  				<td>{{invoice.invoice_customer}}</td>
- 				<td><a href="{% url 'invoice_viewer' invoice.id %}"><button type="button" class="btn btn-primary">View</button></a></td>
+				 <td><a href="{% url 'invoice_viewer' invoice.id %}"><button type="button" class="btn btn-primary">View</button></a></td>
+				 <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#invoiceDeleteModal" data-invoice-id="{{invoice.id}}" data-invoice-number="{{invoice.invoice_number}}, for {{invoice.invoice_customer}}">Delete</button></td>
 			</tr>
 			{% endfor %}
 		</tbody>
 		</table>
 
-
+		<div class="modal fade" id="invoiceDeleteModal" tabindex="-1" role="dialog" aria-labelledby="invoiceDeleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="invoiceDeleteModalLabel">Are you sure?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="POST" action="{% url 'invoice_delete' %}">
+					{% csrf_token %}
+					<div class="modal-body">
+						Are you sure you want to delete <b><span class="invoice-number"></span></b>?
+							<div class="form-group">
+								<input hidden="true" type="text" class="form-control" name="invoice_id">
+								<input type="checkbox" id="inventory-del" name="inventory-del" value="inventory-del" checked> <b>Remove Inventory Deductions Also</b>
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger" >Yes</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
 {% endblock %}
 
 
 {% block includejs %}
 <script type="text/javascript">
+
+	$('#invoiceDeleteModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var invoice_id = button.data('invoice-id') // Extract info from data-* attributes
+		var invoice_number = button.data('invoice-number') // Extract info from data-* attributes
+		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		var modal = $(this)
+		modal.find('.modal-body input').val(invoice_id)
+		console.log(invoice_number)
+		modal.find('.invoice-number').html(invoice_number)
+	});
+
+
 	$(document).ready( function () {
 		$('#invoice-table').DataTable({
 			"order": [],
@@ -45,7 +86,7 @@
 				"sortable": false,
 				"searchable": false
 			} ],
-			"paging": false
+			"paging": true
 		});
 	});
 </script>

@@ -30,6 +30,7 @@ from .utils import update_inventory
 from .utils import create_inventory
 from .utils import add_customer_book
 from .utils import auto_deduct_book_from_invoice
+from .utils import remove_inventory_entries_for_invoice
 
 from .forms import CustomerForm
 from .forms import ProductForm
@@ -220,6 +221,16 @@ def invoice_viewer(request, invoice_id):
     context['user_profile'] = user_profile
     return render(request, 'gstbillingapp/invoice_printer.html', context)
 
+
+@login_required
+def invoice_delete(request):
+    if request.method == "POST":
+        invoice_id = request.POST["invoice_id"]
+        invoice_obj = get_object_or_404(Invoice, user=request.user, id=invoice_id)
+        if len(request.POST.getlist('inventory-del')):
+            remove_inventory_entries_for_invoice(invoice_obj, request.user)
+        invoice_obj.delete()
+    return redirect('invoices')
 
 
 @login_required

@@ -1,6 +1,9 @@
 import datetime
 import json
 
+from django.db.models import Sum
+
+
 from .models import Product
 from .models import Inventory
 from .models import InventoryLog
@@ -153,6 +156,25 @@ def update_inventory(invoice, request):
         inventory.current_stock += change
         inventory.last_log = inventory_log
         inventory.save()
+
+
+def remove_inventory_entries_for_invoice(invoice, user):
+        inventory_logs = InventoryLog.objects.filter(user=user,
+                                     associated_invoice=invoice)
+        for inventory_log in inventory_logs:
+            inventory_product = inventory_log.product
+            inventory_log.delete()
+            # update the inventory total
+            inventory_obj = Inventory.objects.get(user=user, product=inventory_product)
+            recalculate_inventory_total(inventory_obj, user)
+
+
+def recalculate_inventory_total(inventory_obj, user):
+    new_total = InventoryLog.objects.filter(user=user, product=inventory_obj.product).aggregate(Sum('change'))['change__sum']
+    if not new_total:
+        new_total = 0
+    inventory_obj.current_stock = new_total
+    inventory_obj.save()
 
 
 # ================ Book methods ===========================
