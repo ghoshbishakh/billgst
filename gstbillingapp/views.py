@@ -33,6 +33,8 @@ from .utils import auto_deduct_book_from_invoice
 from .utils import remove_inventory_entries_for_invoice
 from .utils import get_total_cartons
 from .utils import get_total_gst
+from .utils import recalculate_inventory_total
+
 
 from .forms import CustomerForm
 from .forms import ProductForm
@@ -397,6 +399,33 @@ def inventory_logs_add(request, inventory_id):
     
     return render(request, 'gstbillingapp/inventory_logs_add.html', context)
 
+
+@login_required
+def clear_all_inventory(request):
+    if request.method == "POST":
+        inventory_list = Inventory.objects.filter(user=request.user)
+        for inventory_obj in inventory_list:
+            inventory_logs = InventoryLog.objects.filter(user=request.user, product=inventory_obj.product)
+            for log in inventory_logs:
+                log.delete()
+
+        inventory_list = Inventory.objects.filter(user=request.user)
+        for inventory_obj in inventory_list:
+            recalculate_inventory_total(inventory_obj, request.user)
+
+        return redirect('inventory')
+
+    return redirect('inventory')
+
+
+@login_required
+def update_all_inventory(request):
+    context = {}
+    context['inventory_list'] = Inventory.objects.filter(user=request.user)
+    
+    return render(request, 'gstbillingapp/update_all_inventory.html', context)
+
+
 # ===================== Book views =============================
 
 @login_required
@@ -460,3 +489,7 @@ def book_logs_add(request, book_id):
 def landing_page(request):
     context = {}
     return render(request, 'gstbillingapp/pages/landing_page.html', context)
+
+def advanced_options(request):
+    context = {}
+    return render(request, 'gstbillingapp/advanced.html', context)

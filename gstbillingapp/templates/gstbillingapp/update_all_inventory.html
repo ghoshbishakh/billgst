@@ -1,0 +1,40 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="row">
+	<div class="col">
+		<h2>Inventory</h2>
+	</div>
+</div>
+
+<table class="table table-hover font-weight-bold" id="inventory-table">
+	<thead>
+		<tr>
+			<th>Product</th>
+			<th>Last Transaction</th>
+			<th>Current Stock</th>
+			<th>New Stock</th>
+		</tr>
+	</thead>
+	<tbody class="two-col-form">
+		{% for inventory in inventory_list %}
+		<tr>
+			<td><a href="{% url 'inventory_logs' inventory.id %}">{{inventory.product.product_name}}</a></td>
+			<td>{{inventory.current_stock}}</td>
+			<td>{{inventory.last_log}}</td>
+			<td><input type="text" value="{{inventory.current_stock}}" name="{{inventory.id}}"></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}
+
+
+{% block includejs %}
+{% endblock %}

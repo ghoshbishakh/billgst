@@ -39,6 +39,11 @@ urlpatterns = [
 
     path('profile', views.user_profile, name='user_profile'),
     path('profile/edit', views.user_profile_edit, name='user_profile_edit'),
+    
+    
+    path('advanced', views.advanced_options, name='advanced'),
+    path('clearallinventory', views.clear_all_inventory, name='clear_all_inventory'),
+    path('updateallinventory', views.update_all_inventory, name='update_all_inventory'),
 
 
 ]

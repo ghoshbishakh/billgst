@@ -1,0 +1,18 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+<h2>Advanced</h2>
+<form method="POST" action="{% url 'clear_all_inventory' %}">
+	{% csrf_token %}
+	<input hidden="true" name="dummy">
+	<button type="submit" class="btn btn-danger" >CLEAR ALL INVENTORY DATA  -- NO BACKUP</button>
+</form>
+<br>
+<a href="{% url 'update_all_inventory' %}"><button  class="btn btn-primary">UPDATE ALL INVENTORY STOCKS</button></a>
+
+{% endblock %}
