@@ -31,6 +31,8 @@ from .utils import create_inventory
 from .utils import add_customer_book
 from .utils import auto_deduct_book_from_invoice
 from .utils import remove_inventory_entries_for_invoice
+from .utils import get_total_cartons
+from .utils import get_total_gst
 
 from .forms import CustomerForm
 from .forms import ProductForm
@@ -219,6 +221,10 @@ def invoice_viewer(request, invoice_id):
     context['currency'] = "₹"
     context['total_in_words'] = num2words.num2words(int(context['invoice_data']['invoice_total_amt_with_gst']), lang='en_IN').title()
     context['user_profile'] = user_profile
+
+    context['total_cartons'] = get_total_cartons(invoice_obj)
+    context['total_gst'] = get_total_gst(invoice_obj)
+
     return render(request, 'gstbillingapp/invoice_printer.html', context)
 
 

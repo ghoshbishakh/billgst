@@ -119,12 +119,19 @@
 
 						<tr id="table-invoice-total-row">
 							{% if invoice_data.igstcheck %}
-								<td class="text-right" colspan="7">Total: </td>
+								<td class="text-right" colspan="4">Total: </td>
+								<td class="text-right"> {{ total_cartons }}</td>
+								<td></td>
+								<td></td>
 								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
 								<td class="text-right"></td>
 								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_igst|floatformat:2 }}</td>
 							{% else %}
-								<td class="text-right" colspan="7">Total: </td>
+								<td class="text-right" colspan="4">Total: </td>
+								<td class="text-right"> {{ total_cartons }}</td>
+								<td></td>
+								<td></td>
+								
 								<td class="text-right">{{ currency }} {{ invoice_data.invoice_total_amt_without_gst|floatformat:2 }}</td>
 								<td class="text-right"></td>
 								<td class="text-right">{{ currency }} {{invoice_data.invoice_total_amt_cgst|floatformat:2 }}</td>
@@ -141,7 +148,23 @@
 
 
 				<div class="col-sm-6 col-lg-6 col-md-6 col-6">
-					
+					<table class="table">
+						<tr>
+							<td>Bank Details</td>
+						</tr>
+						<tr>
+							<td>Axis Bank<br> A/c No. 916020062627528 <br>Branch: Bolpur<br>  IFSC: UTIB0000220 
+							</td>
+						</tr>
+						<tr>
+							<td>Declaration: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct
+ 
+							</td>
+						</tr>
+
+
+					</table>
+
 				</div>
 
 				<div class="col-sm-6 col-lg-6 col-md-6 col-6">
@@ -165,6 +188,11 @@
 								<td>{{ currency }} {{ invoice_data.invoice_total_amt_sgst|floatformat:2 }}</td>
 							</tr>
 						{% endif %}
+						<tr>
+							<td>Total GST: </td>
+							<td>{{ currency }} {{ total_gst|floatformat:2 }}</td>
+						</tr>
+
 						<tr>
 							<td>Invoice Total: </td>
 							<td>{{ currency }} {{invoice_data.invoice_total_amt_with_gst|floatformat:2 }}</td>

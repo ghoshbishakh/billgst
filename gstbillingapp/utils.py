@@ -131,6 +131,23 @@ def update_products_from_invoice(invoice_data_processed, request):
         if new_product:
             create_inventory(product)
 
+
+def get_total_cartons(invoice_obj):
+    invoice_data = json.loads(invoice_obj.invoice_json)
+    total_cartons = 0
+    for item in invoice_data['items']:
+        total_cartons += item['invoice_qty_carton']
+    return total_cartons
+
+def get_total_gst(invoice_obj):
+    invoice_data = json.loads(invoice_obj.invoice_json)
+    if invoice_data['igstcheck']:
+        return invoice_data['invoice_total_amt_igst']
+    else:
+        return invoice_data['invoice_total_amt_cgst'] + invoice_data['invoice_total_amt_sgst']
+
+
+
 #  ================== Inventory methods ====================
 
 def create_inventory(product):
