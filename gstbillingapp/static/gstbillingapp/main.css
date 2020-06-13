@@ -43,7 +43,7 @@ input.form-control[type=number] {
 	background: #f9f9f9;
 	width: 20em;
 	height: 100%;
-	position: absolute;
+	position: fixed;
 	right: 0;
 	top: 0;
 	box-shadow: 0em 0em 1em #111;
@@ -94,7 +94,7 @@ input.form-control[type=number] {
 
 
 #invoice-signature-text-row {
-    border-top: : 2px solid;
+    border-top: 2px solid;
 }
 
 #invoice-signature-row {
@@ -123,6 +123,14 @@ input.form-control[type=number] {
 
 #invoice_profile_data {
 	white-space: pre-line;
+}
+
+.table-lightred td {
+	background: #ffe2e2 !important;
+}
+
+.table-lightgreen td {
+	background: #eafff0 !important;
 }
 
 /* Print invoice page ************************************/

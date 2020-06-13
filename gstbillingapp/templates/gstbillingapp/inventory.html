@@ -39,13 +39,20 @@
 
 $(document).ready( function () {
 	$('#inventory-table').DataTable({
+		dom: 'Bfrtip',
 		"order": [],
-		"columnDefs": [ {
-			"targets": 3,
-			"sortable": false,
-			"searchable": false
-		} ],
-		"paging": true
+		// "columnDefs": [ {
+		// 	"targets": 3,
+		// 	"sortable": false,
+		// 	"searchable": false
+		// } ],
+		"paging": false,
+		buttons: [
+			{
+                extend: 'excelHtml5',
+                title: 'Inventory Data'
+            },
+        ]
 	});
 });
 
