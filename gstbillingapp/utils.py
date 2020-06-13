@@ -196,6 +196,23 @@ def recalculate_inventory_total(inventory_obj, user):
     inventory_obj.current_stock = new_total
     inventory_obj.save()
 
+def update_inventory_with_new_stock(inventoryid, newstock):
+    inventory_obj = Inventory.objects.get(id=inventoryid)
+    change = newstock - inventory_obj.current_stock
+    if change == 0:
+        return
+    inventory_log = InventoryLog(user=inventory_obj.user,
+                                 product=inventory_obj.product,
+                                 date=datetime.datetime.now(),
+                                 change=change,
+                                 change_type=0,
+                                 associated_invoice=None,
+                                 description="Manually Updated Stock")
+    inventory_log = inventory_log.save()
+    inventory_obj.last_log = inventory_log
+    inventory_obj.save()
+    recalculate_inventory_total(inventory_obj, inventory_obj.user)
+
 
 # ================ Book methods ===========================
 

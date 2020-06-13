@@ -34,6 +34,7 @@ from .utils import remove_inventory_entries_for_invoice
 from .utils import get_total_cartons
 from .utils import get_total_gst
 from .utils import recalculate_inventory_total
+from .utils import update_inventory_with_new_stock
 
 
 from .forms import CustomerForm
@@ -422,7 +423,18 @@ def clear_all_inventory(request):
 def update_all_inventory(request):
     context = {}
     context['inventory_list'] = Inventory.objects.filter(user=request.user)
-    
+    invoice_dict = {}
+    if request.method == "POST":
+        for invoiceid, newstock in request.POST.items():
+            try:
+                invoice_dict[int(invoiceid)] = int(newstock)
+            except:
+                pass
+
+    for invoiceid, newstock in invoice_dict.items():
+        print(invoiceid, newstock)
+        update_inventory_with_new_stock(invoiceid, newstock)
+
     return render(request, 'gstbillingapp/update_all_inventory.html', context)
 
 
